@@ -1,0 +1,8 @@
+const {Schema, model} = require('mongoose');
+
+const BloodInventorySchema = new Schema({
+    loc: {
+        type: 'String',
+        required: true
+    },
+});
