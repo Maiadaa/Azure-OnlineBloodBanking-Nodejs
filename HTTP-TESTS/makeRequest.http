@@ -1,0 +1,42 @@
+put http://localhost:3000/bankinventory/638359510b1805a1b3aca3dc
+Content-Type: application/json
+
+{
+"name": "hagrass",
+"email": "hagrass@bue",
+"phoneNumber": "01013700990",
+"Address": "ffff",
+"Condition": "dasd",
+"BloodType": "A+",
+"Request": 
+    [   
+        {
+            "BloodType": "A+",
+            "Amount": "3",
+            "Date": "12/22/2022",
+            "Status": "pending",
+            "Purpose": "problem with his legs"
+        },   
+        {   
+            "BloodType": "B+",
+            "Amount": "3",
+            "Date": "17/22/2022",
+            "Status": "pending",
+            "Purpose": "problem with his legs"
+        },
+        {   
+            "BloodType": "B+",
+            "Amount": "3",
+            "Date": "17/22/2022",
+            "Status": "pending",
+            "Purpose": "problem with his legs"
+        },
+        {   
+            "BloodType": "B+",
+            "Amount": "3",
+            "Date": "17/22/2022",
+            "Status": "pending",
+            "Purpose": "problem with his legs"
+        }
+    ]
+}

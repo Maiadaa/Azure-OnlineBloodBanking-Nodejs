@@ -25,6 +25,35 @@ const PatientSchema = new Schema({
         type:'String',
         required: true
     },
+    Request: [
+        {
+            BloodType:
+            {
+                type: 'String',
+                required: true
+            },
+            Amount:
+            {
+                type: 'String',
+                required: true
+            },
+            Date:
+            {
+                type: 'String',
+                required: true
+            },
+            Status:
+            {
+                type: 'String',
+                required: true
+            },
+            Purpose:
+            {
+                type: 'String',
+                required: true
+            },
+        }
+    ]
 });
 
 const PatientModel = model ('Patient', PatientSchema);
