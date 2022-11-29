@@ -21,6 +21,10 @@ const HospitalSchema = new Schema({
         type: 'String',
         required: true
     },
+    inventoryID: {
+        type: 'String',
+        required:false
+    }
 });
 
 const HospitalModel = model('Hospital', HospitalSchema);

@@ -24,6 +24,10 @@ const DoctorSchema = new Schema({
     Speciality: {
         type: 'String',
         required: true 
+    },
+    hospital:{
+        type: 'String',
+        required: true
     }
 });
 

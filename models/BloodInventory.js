@@ -2,10 +2,6 @@ const {Schema, model} = require('mongoose');
 
 
 const BloodInventorySchema = new Schema({
-    HospitalName: {
-        type: 'String',
-        required: true
-    },
     BloodBags: 
         [
             {
@@ -52,6 +48,11 @@ const BloodInventorySchema = new Schema({
                 quantity: {
                     type: 'number',
                     required: true
+                },
+                status: {
+                    type: 'String',
+                    required: true,
+                    default: 'pending'
                 }
             }
         ]    

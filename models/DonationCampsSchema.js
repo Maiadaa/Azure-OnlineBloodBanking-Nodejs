@@ -21,6 +21,16 @@ const DonationCampsSchema = new Schema({
         type: 'String',
         required: true
     },
+    donorReservations:[{
+        donorID: {
+            type: 'String',
+            required: true
+        },
+        timeSlot: {
+            type: 'String',
+            required: true
+        }
+    }]
 });
 
 const DonationCampsModel = model('Donation Camps', DonationCampsSchema);

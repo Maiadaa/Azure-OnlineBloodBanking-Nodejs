@@ -11,18 +11,22 @@ const LabManagerSchema = new Schema({
         type: 'String',
         required: true
     },
-    PhoneNumber: 
+    phoneNumber: 
     {
         type: 'String',
         required: true
     },
-    Username: 
+    username: 
     {
         type: 'String',
         required: true
     },
-    Password: 
+    password: 
     {
+        type: 'String',
+        required: true
+    },
+    hospital:{
         type: 'String',
         required: true
     }
