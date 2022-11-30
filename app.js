@@ -4,7 +4,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const initiateDBConnection = require('./config/db');
-const BankInventoryRouter = require('./routes/BankInventory');
+const patientRouter = require('./routes/PatientRoutes');
 // Let the dotenv package read and parse environment variables in the ./config/.env file
 dotenv.config({ 
     path: './config/.env' 
@@ -17,7 +17,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/bankinventory', BankInventoryRouter);
+app.use('/patient', patientRouter);
 
 
 app.listen(PORT, async() => {

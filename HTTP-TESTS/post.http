@@ -1,33 +1,12 @@
-post http://localhost:3000/bankinventory
+post http://localhost:3000/patient
 Content-Type: application/json
 
 {
-"HospitalName": "test222",
-"BloodBags": [{
-        "HBV": "true",
-        "HCV": "true",
-        "HIV": "true",
-        "HTLV": "true",
-        "syphilis": "true",
-        "WNV": "true",
-        "TrypanosomaCruzi": "true",
-        "CMV": "true",
-        "Babesia": "true",
-        "BacterialContamination": "true",
-        "quantity": "5555555555555555555555555"
-    },   
-    {
-        "HBV": "true",
-        "HCV": "true",
-        "HIV": "true",
-        "HTLV": "true",
-        "syphilis": "true",
-        "WNV": "true",
-        "TrypanosomaCruzi": "true",
-        "CMV": "true",
-        "Babesia": "true",
-        "BacterialContamination": "true",
-        "quantity": "5"
-    }
-]
+"name": "ttttttttttttttttttttttttttttt",
+"email": "hagrass@bue",
+"PhoneNumber": "01013700990",
+"Address": "ffff",
+"Condition": "dasd",
+"BloodType": "B+",
+"Request": []
 }

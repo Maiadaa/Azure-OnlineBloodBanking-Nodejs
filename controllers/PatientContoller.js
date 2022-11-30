@@ -1,9 +1,9 @@
-const BankInventoryService = require('../services/BankInventory');
+const pateitnService = require('../services/PatientServices');
 
-/*module.exports.getBankInventory = async (req, res) => {
+module.exports.getPatients = async (req, res) => {
     try{
-        const BankInventories = await BankInventoryService.FindAllBloodInventory();
-        res.send({BankInventories});
+        const pateitns = await pateitnService.FindAllPatients();
+        res.send({pateitns});
     }catch(err){
         res.status(500);
         res.send({
@@ -12,45 +12,81 @@ const BankInventoryService = require('../services/BankInventory');
     }
 };
 
-module.exports.postBankInventory = async (req, res) => {
+module.exports.getPatientByID = async (req, res) => {
+  try{
+      const patientID = req.params.patientID;
+      const pateitns = await pateitnService.findPatientById(patientID);
+      res.send({pateitns});
+  }catch(err){
+      res.status(500);
+      res.send({
+          error: err
+      });
+  };
+};
+
+module.exports.postPatient = async (req, res) => {
   try {
-    const BankInventoryInfo = {
-        HospitalName: req.body.HospitalName,
-        BloodBags: req.body.BloodBags
+    const patientInfo = {
+        name: req.body.name,
+        email: req.body.email,
+        PhoneNumber: req.body.PhoneNumber,
+        Address: req.body.Address,
+        Condition: req.body.Condition,
+        BloodType: req.body.BloodType,
+        Request: req.body.Request,
     };
     
-      const createdBankInventory = await BankInventoryService.addNewBankInventory(BankInventoryInfo);
+      const createdPatient = await pateitnService.addNewPatient(patientInfo);
       return res.status(201).send({
-        msg: 'bank inventory created successfully.',
-        BankInventoryId: createdBankInventory._id
+        msg: 'patient created successfully.',
+        patient_ID: createdPatient._id
       });
     } catch (err) {
       return res.status(500).send({
         error: err.message
       });
     }
-};*/
+};
 
-module.exports.DrRequiestBag = async (req, res) => {
+module.exports.requestBloodBag = async (req, res) => {
   try{
     const patientID = req.params.patientID;
+    const patient = await pateitnService.findPatientById(patientID);
     const requestInfo = {
-      name: req.body.name,
-      email: req.body.email,
-      phoneNumber: req.body.phoneNumber,
-      Address: req.body.Address,
-      Condition: req.body.Condition,
-      BloodType: req.body.BloodType,
-      Request: req.body.Request
+        BloodType:  req.body.BloodType,
+        Amount: req.body.Amount,
+        Date: req.body.Date,
+        Status: req.body.Status,
+        Purpose: req.body.Purpose
     };
-    const updatePatient = await BankInventoryService.DrRequestBloodBag(patientID,requestInfo);
+    const updatePatient = await pateitnService.requestBloodBag(patient, requestInfo);
     return res.status(201). send({
-      msg: 'update patient request',
-      BankInventoryId: updatePatient._id
+      msg: 'updated successfully',
+      Patient_Id: updatePatient._id
     });
   }catch(err){
     return res.status(500).send({
       error: err.message
     });
   }
-}
+};
+
+module.exports.viewBagrequest = async (req, res) => {
+  try{
+      const patientID = req.params.patientID;
+      const patient = await pateitnService.findPatientById(patientID);
+      var viewRequest;
+      for(let request of patient.Request){
+        if(request.Status == 'pending'){
+          viewRequest = request;
+        }
+      } 
+      res.send({viewRequest});
+  }catch(err){
+      res.status(500);
+      res.send({
+          error: err
+      });
+  };
+};
