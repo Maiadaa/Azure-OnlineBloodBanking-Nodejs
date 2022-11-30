@@ -1,6 +1,6 @@
 const BankInventoryService = require('../services/BankInventory');
 
-module.exports.getBankInventory = async (req, res) => {
+/*module.exports.getBankInventory = async (req, res) => {
     try{
         const BankInventories = await BankInventoryService.FindAllBloodInventory();
         res.send({BankInventories});
@@ -29,7 +29,7 @@ module.exports.postBankInventory = async (req, res) => {
         error: err.message
       });
     }
-};
+};*/
 
 module.exports.DrRequiestBag = async (req, res) => {
   try{
