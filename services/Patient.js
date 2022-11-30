@@ -1,7 +1,6 @@
-const BloodInventoryModel = require('../models/BloodInventory');
 const PatientModel = require('../models/Patient');
 
-module.exports.FindAllBloodInventory = async () => {
+/*module.exports.FindAllBloodInventory = async () => {
     try{
         const BloodInventories = await BloodInventoryModel.find();
         return BloodInventories;
@@ -21,7 +20,7 @@ module.exports.addNewBankInventory = async (BankInventoryInfo) => {
     } catch (err) {
       throw new Error('Could not create bank inventory.');
     }
-};
+};*/
 
 /*module.exports.findPatientById = async (PatientID) => {
   try {

@@ -1,6 +1,6 @@
 const {Router} = require('express');
 
-const BankInventoryController = require('../controllers/BankInventoryContoller');
+const BankInventoryController = require('../controllers/PatientContoller');
 
 const BankInventoryRouter = Router();
 
