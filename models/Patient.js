@@ -25,7 +25,7 @@ const PatientSchema = new Schema({
         type:'String',
         required: true
     },
-    hospitalName:{
+    hospitalId:{
         type: 'String',
         required: true
     },
@@ -38,7 +38,7 @@ const PatientSchema = new Schema({
             },
             Amount:
             {
-                type: 'String',
+                type: 'number',
                 required: true
             },
             Date:

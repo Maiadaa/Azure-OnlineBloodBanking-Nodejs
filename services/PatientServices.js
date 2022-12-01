@@ -1,4 +1,6 @@
 const PatientModel = require('../models/Patient');
+const HospitalModel = require('../models/hospital');
+const bankInventoryModel = require('../models/BloodInventory');
 
 module.exports.FindAllPatients = async () => {
     try{
@@ -18,6 +20,7 @@ module.exports.addNewPatient = async (pateitnInfo) => {
           Address: pateitnInfo.Address,
           Condition: pateitnInfo.Condition,
           BloodType: pateitnInfo.BloodType,
+          hospitalId: pateitnInfo.hospitalId,
           Request: pateitnInfo.Request
       });
       const createdPatient = await Patient.save();
@@ -55,13 +58,8 @@ module.exports.viewBagRequest = async (PatientID) => {
   }
 };
 
-module.exports.modifyBagRequest = async (patient, newRequest, oldRequest) => {
+module.exports.modifyBagRequest = async (patient) => {
   try{
-    for(var i = 0; i < patient.Request.length; i++){
-      if(patient.Request[i] == oldRequest){
-        patient.Request[i] = newRequest;
-      }
-    }
     const status = await PatientModel.findByIdAndUpdate(patient._id, patient);
     return status;
   }catch(err){
@@ -69,8 +67,30 @@ module.exports.modifyBagRequest = async (patient, newRequest, oldRequest) => {
   }
 };
 
-module.exports.acceptBagRequest = async () => {
-  try{}catch(arr){
+module.exports.findHospitalById = async (hospitalID) => {
+  try {
+    const hospital = await HospitalModel.findById(hospitalID);
+    return hospital;
+  } catch (err) {
+    throw new Error('Could not find hospital.');
+  }
+};
+
+module.exports.findBankInventoryById = async (bankInventoryID) => {
+  try {
+    const inventory = await bankInventoryModel.findById(bankInventoryID);
+    return inventory;
+  } catch (err) {
+    throw new Error('Could not find bank inventory.');
+  }
+};
+
+module.exports.acceptBagRequest = async (patient, inventory) => {
+  try{
+    const BankInv = await bankInventoryModel.findByIdAndUpdate(inventory._id, inventory);
+    const patientt= await PatientModel.findByIdAndUpdate(patient._id, patient);
+    return BankInv + patientt;
+  }catch(arr){
     throw new Error('can not update request status');
   }
 }

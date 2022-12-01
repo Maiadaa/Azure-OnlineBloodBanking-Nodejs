@@ -1,10 +1,10 @@
-put http://localhost:3000/patient/modifyRequest/6387b3f7bd8820f3c97d4ea5
+put http://localhost:3000/patient/modifyRequest/6388a16a8573745e0ef95295
 Content-Type: application/json
 
 {
     "BloodType": "newupdatetestHAGRASS",
     "Amount": "9999",
     "Date": "12/22/2022",
-    "Status": "testya3ammmmmmmmmmmmmmmmmmmm",
+    "Status": "testya3ammmmmmmmmmmmmmmmmm",
     "Purpose": "problem with his legs"
 }

@@ -34,7 +34,7 @@ module.exports.postPatient = async (req, res) => {
         Address: req.body.Address,
         Condition: req.body.Condition,
         BloodType: req.body.BloodType,
-        hospitalName: req.body.hospitalName,
+        hospitalId: req.body.hospitalId,
         Request: req.body.Request
     };
     
@@ -61,6 +61,13 @@ module.exports.requestBloodBag = async (req, res) => {
         Status: req.body.Status,
         Purpose: req.body.Purpose
     };
+    for(let request of patient.Request){
+      if(request.Status == 'pending'){
+        return res.send({
+          msg: 'there is already pending request',
+        });
+      }
+    } 
     const updatePatient = await pateitnService.requestBloodBag(patient, requestInfo);
     return res.status(201). send({
       msg: 'updated successfully',
@@ -109,7 +116,12 @@ module.exports.modifyBagRequest = async (req, res) => {
         oldRequest = request;
       }
     }
-    const status = await pateitnService.modifyBagRequest(patient, requestInfo, oldRequest);
+    for(var i = 0; i < patient.Request.length; i++){
+      if(patient.Request[i] == oldRequest){
+        patient.Request[i] = requestInfo;
+      }
+    }
+    const status = await pateitnService.modifyBagRequest(patient);
     return res.status(201). send({
       msg: 'modify successfully',
       Patient_Id: status._id
@@ -122,3 +134,34 @@ module.exports.modifyBagRequest = async (req, res) => {
   }
 };
 
+module.exports.accept_bag_request = async (req, ser) => {
+  try{
+    const patientID = req.params.patientID;
+    const patient = await pateitnService.findPatientById(patientID);
+    const hospital = await pateitnService.findHospitalById(patient.hospitalId);
+    const inventory = await pateitnService.findBankInventoryById(hospital.inventoryID);
+    const ReqInfo = {
+      BloodType:  req.body.BloodType,
+      Amount: req.body.Amount,
+      Date: req.body.Date,
+      Status: req.body.Status,
+      Purpose: req.body.Purpose
+    };
+    for(var i = 0; i < patient.Request.length; i++){
+      if(patient.Request[i] == ReqInfo && patient.Request[i].Status == 'pending'){
+        for(var j = 0; j < inventory.BloodBags.length; j++){
+          if(inventory.BloodBags[j].bloodType == patient.Request[i].BloodType && inventory.BloodBags[j].quantity >= patient.Request[i].Amount){
+            inventory.BloodBags[j].quantity -=  patient.Request[i].Amount;
+            patient.Request[i].Status = 'Accepted';
+            const patientPLUSinventory = await pateitnService.acceptBagRequest(patient, inventory);
+          }
+        }
+      }
+    }
+  }catch(err){
+    res.status(500);
+    res.send({
+      error: err
+    });
+  }
+}
