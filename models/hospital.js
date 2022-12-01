@@ -11,7 +11,7 @@ const hospital = new Schema({
         type: 'String',
         required: true
     },
-    PhoneNumber: 
+    hotline: 
     {
         type: 'String',
         required: true

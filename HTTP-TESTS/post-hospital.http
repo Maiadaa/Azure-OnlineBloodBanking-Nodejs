@@ -1,0 +1,10 @@
+post http://localhost:3000/hospitals
+Content-Type: application/json
+
+{
+    "name": "test",
+    "email": "test@gmail",
+    "PhoneNumber": "010103997420",
+    "Address": "test",
+    "inventoryID" : "63826a0c5d7aaefadd1e5250"
+}
