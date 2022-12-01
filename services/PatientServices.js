@@ -1,6 +1,4 @@
 const PatientModel = require('../models/Patient');
-const HospitalModel = require('../models/hospital');
-const bankInventoryModel = require('../models/BloodInventory');
 
 module.exports.FindAllPatients = async () => {
     try{
@@ -66,7 +64,7 @@ module.exports.modifyBagRequest = async (patient) => {
     throw new Error('can not modify bag request');
   }
 };
-
+/*
 module.exports.findHospitalById = async (hospitalID) => {
   try {
     const hospital = await HospitalModel.findById(hospitalID);
@@ -85,12 +83,20 @@ module.exports.findBankInventoryById = async (bankInventoryID) => {
   }
 };
 
-module.exports.acceptBagRequest = async (patient, inventory) => {
+module.exports.acceptReqModifyAmount = async (inventory) => {
   try{
-    const BankInv = await bankInventoryModel.findByIdAndUpdate(inventory._id, inventory);
+    const patientt= await PatientModel.findByIdAndUpdate(inventory._id, inventory);
+    return true;
+  }catch(arr){
+    throw new Error('can not update amount');
+  }
+}
+*/
+module.exports.acceptBagRequest = async (patient) => {
+  try{
     const patientt= await PatientModel.findByIdAndUpdate(patient._id, patient);
-    return BankInv + patientt;
+    return true;
   }catch(arr){
     throw new Error('can not update request status');
   }
-}
+};

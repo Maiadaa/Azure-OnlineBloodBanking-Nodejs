@@ -1,4 +1,6 @@
 const pateitnService = require('../services/PatientServices');
+const hospitalService = require('../services/hospitals');
+const bankInventoryService = require('../services/BloodBankInventory');
 
 module.exports.getPatients = async (req, res) => {
     try{
@@ -13,6 +15,7 @@ module.exports.getPatients = async (req, res) => {
 };
 
 module.exports.getPatientByID = async (req, res) => {
+  
   try{
       const patientID = req.params.patientID;
       const pateitns = await pateitnService.findPatientById(patientID);
@@ -138,8 +141,8 @@ module.exports.accept_bag_request = async (req, ser) => {
   try{
     const patientID = req.params.patientID;
     const patient = await pateitnService.findPatientById(patientID);
-    const hospital = await pateitnService.findHospitalById(patient.hospitalId);
-    const inventory = await pateitnService.findBankInventoryById(hospital.inventoryID);
+    const hospital = await hospitalService.findHospitalById(patient.hospitalId);
+    const inventory = await bankInventoryService.findBankInventoryById(hospital.inventoryID);
     const ReqInfo = {
       BloodType:  req.body.BloodType,
       Amount: req.body.Amount,
@@ -153,8 +156,24 @@ module.exports.accept_bag_request = async (req, ser) => {
           if(inventory.BloodBags[j].bloodType == patient.Request[i].BloodType && inventory.BloodBags[j].quantity >= patient.Request[i].Amount){
             inventory.BloodBags[j].quantity -=  patient.Request[i].Amount;
             patient.Request[i].Status = 'Accepted';
-            const patientPLUSinventory = await pateitnService.acceptBagRequest(patient, inventory);
+            const returnPatient = await pateitnService.acceptBagRequest(patient);
+            const returnInventory = await bankInventoryService.acceptReqModifyAmount(inventory);
+            if(returnPatient && returnInventory){
+              return res.status(201). send({
+                msg: 'accepted successfully',
+                Patient_Id: [patient._id]
+              });
+            }
           }
+        }
+      }else {
+        patient.Request[i].Status = 'Rejected';
+        const returnPatient = await pateitnService.acceptBagRequest(patient);
+        if(returnPatient){
+          return res.status(201). send({
+            msg: 'the request rejected',
+            Patient_Id: [patient._id]
+          });
         }
       }
     }
@@ -164,4 +183,4 @@ module.exports.accept_bag_request = async (req, ser) => {
       error: err
     });
   }
-}
+};
