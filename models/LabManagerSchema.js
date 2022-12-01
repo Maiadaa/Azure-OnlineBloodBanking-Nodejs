@@ -4,17 +4,17 @@ const LabManagerSchema = new Schema({
     name: 
     {
         type: 'String',
-        required: true
+        required: false
     },
     email: 
     {
         type: 'String',
-        required: true
+        required: false
     },
     phoneNumber: 
     {
         type: 'String',
-        required: true
+        required: false
     },
     username: 
     {
