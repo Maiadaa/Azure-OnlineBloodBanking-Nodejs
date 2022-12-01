@@ -1,3 +1,4 @@
+const {validationResult} = require('express-validator');
 const pateitnService = require('../services/PatientServices');
 const hospitalService = require('../services/hospitals');
 const bankInventoryService = require('../services/BloodBankInventory');
@@ -29,6 +30,10 @@ module.exports.getPatientByID = async (req, res) => {
 };
 
 module.exports.postPatient = async (req, res) => {
+  const validationErrors = validationResult(req).array();
+  if(validationErrors.length > 0){
+    return res.status(422).send({ validationErrors });
+  }
   try {
     const patientInfo = {
         name: req.body.name,
@@ -54,6 +59,10 @@ module.exports.postPatient = async (req, res) => {
 };
 
 module.exports.requestBloodBag = async (req, res) => {
+  const validationErrors = validationResult(req).array();
+  if(validationErrors.length > 0){
+    return res.status(422).send({ validationErrors });
+  }
   try{
     const patientID = req.params.patientID;
     const patient = await pateitnService.findPatientById(patientID);
@@ -103,6 +112,10 @@ module.exports.viewBagrequest = async (req, res) => {
 };
 
 module.exports.modifyBagRequest = async (req, res) => {
+  const validationErrors = validationResult(req).array();
+  if(validationErrors.length > 0){
+    return res.status(422).send({ validationErrors });
+  }
   try{
     const patientID = req.params.patientID;
     const patient = await pateitnService.findPatientById(patientID);

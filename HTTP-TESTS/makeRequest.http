@@ -1,6 +1,5 @@
-put http://localhost:3000/patient/6388a16a8573745e0ef95295
+put http://localhost:3000/patient/requestBloodBag/6388e2d953324f0ab09a97c4
 Content-Type: application/json
-
 
 {
     "BloodType": "test232fdsfsd323",
