@@ -18,7 +18,7 @@ const LabAdminSchema = new Schema({
         type: 'String',
         required: true
     },
-    hassword: {
+    password: {
         type: 'String',
         required: true
     },
