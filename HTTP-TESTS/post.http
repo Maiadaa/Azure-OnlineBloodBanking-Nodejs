@@ -8,5 +8,6 @@ Content-Type: application/json
 "Address": "ffff",
 "Condition": "dasd",
 "BloodType": "B+",
+"hospitalName": "",
 "Request": []
 }

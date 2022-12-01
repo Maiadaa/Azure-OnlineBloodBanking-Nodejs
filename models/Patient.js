@@ -25,6 +25,10 @@ const PatientSchema = new Schema({
         type:'String',
         required: true
     },
+    hospitalName:{
+        type: 'String',
+        required: true
+    },
     Request: [
         {
             BloodType:

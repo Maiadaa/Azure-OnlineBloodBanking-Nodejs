@@ -2,10 +2,10 @@ put http://localhost:3000/patient/6387b3f7bd8820f3c97d4ea5
 Content-Type: application/json
 
 
-        {
-            "BloodType": "test232fdsfsd323",
-            "Amount": "3",
-            "Date": "12/22/2022",
-            "Status": "pending",
-            "Purpose": "problem with his legs"
-        }
+{
+    "BloodType": "test232fdsfsd323",
+    "Amount": "3",
+    "Date": "12/22/2022",
+    "Status": "pending",
+    "Purpose": "problem with his legs"
+}

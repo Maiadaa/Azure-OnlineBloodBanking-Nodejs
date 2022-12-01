@@ -46,11 +46,31 @@ module.exports.requestBloodBag = async (patient,requestInfo) => {
   }
 };
 
-module.exports.viewBagrequest = async (patient) => {
+module.exports.viewBagRequest = async (PatientID) => {
   try{
     const Patient = await PatientModel.findById(PatientID);
-    return patient;
+    return Patient;
   }catch(err){
     throw new Error('can not get bag request');
+  }
+};
+
+module.exports.modifyBagRequest = async (patient, newRequest, oldRequest) => {
+  try{
+    for(var i = 0; i < patient.Request.length; i++){
+      if(patient.Request[i] == oldRequest){
+        patient.Request[i] = newRequest;
+      }
+    }
+    const status = await PatientModel.findByIdAndUpdate(patient._id, patient);
+    return status;
+  }catch(err){
+    throw new Error('can not modify bag request');
+  }
+};
+
+module.exports.acceptBagRequest = async () => {
+  try{}catch(arr){
+    throw new Error('can not update request status');
   }
 }

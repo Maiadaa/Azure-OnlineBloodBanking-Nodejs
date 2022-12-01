@@ -12,6 +12,8 @@ patientRouter.get('/:patientID', PatientContoller.getPatientByID);
 
 patientRouter.get('/viewRequest/:patientID', PatientContoller.viewBagrequest);
 
+patientRouter.put('/modifyRequest/:patientID', PatientContoller.modifyBagRequest);
+
 patientRouter.put('/:patientID', PatientContoller.requestBloodBag);
 
 module.exports = patientRouter;
