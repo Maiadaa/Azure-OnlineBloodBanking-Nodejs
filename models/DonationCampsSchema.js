@@ -1,7 +1,7 @@
 const {Schema, model} = require('mongoose');
 
 const DonationCampsSchema = new Schema({
-    name: 
+    hospitalName: 
     {
         type: 'String',
         required: true
@@ -28,6 +28,10 @@ const DonationCampsSchema = new Schema({
         },
         timeSlot: {
             type: 'String',
+            required: true
+        },
+        bloodBagsQty:{
+            type: 'Number',
             required: true
         }
     }]
