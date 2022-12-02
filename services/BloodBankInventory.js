@@ -42,7 +42,7 @@ module.exports.findBankInventoryById = async (bankInventoryID) => {
   
   module.exports.acceptReqModifyAmount = async (inventory) => {
     try{
-      const inventory= await BloodBagModel.findByIdAndUpdate(inventory._id, inventory);
+      const inventory = await BloodBagModel.findByIdAndUpdate(inventory._id, inventory);
       return true;
     }catch(arr){
       throw new Error('can not update amount');
