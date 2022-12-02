@@ -5,6 +5,10 @@ const BloodInventorySchema = new Schema({
     BloodBags: 
         [
             {
+                bloodBagType: {
+                    type: 'String',
+                    required: true
+                },
                 HBV: {
                     type: 'Boolean',
                     required: false

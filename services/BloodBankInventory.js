@@ -30,3 +30,21 @@ module.exports.InsertBloodBag = async (bloodBagInfo) =>
         throw new Error ('Could not add Blood Bag into Blood Bag inventory');
     }
 };
+
+module.exports.findBankInventoryById = async (bankInventoryID) => {
+    try {
+      const inventory = await BloodBagModel.findById(bankInventoryID);
+      return inventory;
+    } catch (err) {
+      throw new Error('Could not find bank inventory.');
+    }
+  };
+  
+  module.exports.acceptReqModifyAmount = async (inventory) => {
+    try{
+      const inventory= await BloodBagModel.findByIdAndUpdate(inventory._id, inventory);
+      return true;
+    }catch(arr){
+      throw new Error('can not update amount');
+    }
+  }
