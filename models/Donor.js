@@ -30,3 +30,7 @@ const DonorSchema = new Schema({
         required: true
     }
 });
+
+const donorModel = model('donor', DonorSchema);
+
+module.exports = donorModel;

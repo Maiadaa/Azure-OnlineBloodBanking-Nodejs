@@ -39,3 +39,44 @@ module.exports.postUser = async (req, res) => {
     });
   }
 };
+
+module.exports.postLogin = async (req, res) => {
+  const { role, username, password } = req.body;
+  try {
+    var acc; 
+    if(role == "Super Admin"){
+      acc = await userAccService.chkSuperAdminCreds(username, password);
+    }else if (role == "Lab Manager"){
+      acc = await userAccService.chkLabManagerCreds(username, password);
+    }else if (role == "Lab Admin"){
+      acc = await userAccService.chkLabAdminCreds(username, password);
+    }else if (role == "Doctor"){
+      // acc = await userAccService.chkDoctorCreds(username, password);
+    }else if (role == "Donor"){
+      // acc = await userAccService.chkDonorCreds(username ,password);
+    }
+
+    if (!acc) {
+      return res.status(401).send({
+        error:
+          'Invalid credentials, please enter the correct username and password.'
+      });
+    }
+
+    const jwt = await userAccService.generateJWT(acc, role);
+
+    res.send({
+      userId: acc._id,
+      username: acc.username,
+      jwt: jwt,
+      role: role,
+      message: 'Logged in successfully.'
+    });
+
+  } catch (err) {
+    res.status(500).send({
+      error: error.message
+    });
+  }
+};
+    

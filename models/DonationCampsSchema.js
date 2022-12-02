@@ -37,6 +37,6 @@ const DonationCampsSchema = new Schema({
     }]
 });
 
-const DonationCampsModel = model('Donation Camps', DonationCampsSchema);
+const DonationCampsModel = model('DonationCamp', DonationCampsSchema);
 
 module.exports = DonationCampsModel;

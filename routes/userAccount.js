@@ -8,6 +8,7 @@ const accountsController = require('../controllers/userAccount');
 const accountsRouter = Router();
 
 accountsRouter.post('/signup', accountsController.postUser);
+authRouter.post('/signin', accountsController.postLogin);
 
 // export the router instance 
 module.exports = accountsRouter;
