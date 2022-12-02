@@ -65,15 +65,6 @@ module.exports.modifyBagRequest = async (patient) => {
   }
 };
 /*
-module.exports.findHospitalById = async (hospitalID) => {
-  try {
-    const hospital = await HospitalModel.findById(hospitalID);
-    return hospital;
-  } catch (err) {
-    throw new Error('Could not find hospital.');
-  }
-};
-
 module.exports.findBankInventoryById = async (bankInventoryID) => {
   try {
     const inventory = await bankInventoryModel.findById(bankInventoryID);
