@@ -1,17 +1,52 @@
+const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongoose').Types;
+
+const superAdminModel = require('../models/SuperAdmin');
+const labManagerModel = require('../models/LabManagerSchema');
+const labAdminModel = require('../models/LabAdmin');
+
+module.exports.doesUserExist = async(role, username) => {
+    var existingUser;
+    if (role == "Super Admin"){
+        existingUser = await superAdminModel.findOne({
+            username: username
+        });
+    }else if (accInfo.role == "Lab Manager"){
+        existingUser = await labManagerModel.findOne({
+            username: username
+        });
+    }else if (accInfo.role == "Lab Admin"){
+        existingUser = await labAdminModel.findOne({
+            username: username
+        });
+    }else if (accInfo.role == "Doctor"){
+
+    }else if (accInfo.role == "Donor"){
+
+    }else{
+
+    }
+
+    if (existingUser) {
+        return true;
+    } else {
+        return false;
+    }
+};
 
 module.exports.superAdminSignup= async (superAdminInfo) => {
     try{
-        const superAdminModel = require('../models/SuperAdmin');
+        // hash the password
+        let hashedPassword = await bcrypt.hash(superAdminInfo.password, 12);
+
         const superAdmin = new superAdminModel({
             name: superAdminInfo.name,
             email: superAdminInfo.email,
             PhoneNumber: superAdminInfo.PhoneNumber,
             username: superAdminInfo.username,
-            password: superAdminInfo.password
+            password: hashedPassword
         });
-        const superAdminStatus = await superAdmin.save();
-        return superAdminStatus;
+        await superAdmin.save();
     }catch (err) {
         throw new Error('Failed to add super admin.');
     }
@@ -19,14 +54,15 @@ module.exports.superAdminSignup= async (superAdminInfo) => {
 
 module.exports.labManagerSignUp= async (labManagerInfo) => {
     try{
-        const labManagerModel = require('../models/LabManagerSchema');
+        // hash the password
+        let hashedPassword = await bcrypt.hash(superAdminInfo.password, 12); 
+
         const labManager = new labManagerModel({
             username: labManagerInfo.username,
-            password: labManagerInfo.password,
+            password: hashedPassword,
             hospital: labManagerInfo.hospitalName
         });
-        const labManagerStatus = await labManager.save();
-        return labManagerStatus;
+        await labManager.save();
     }catch (err) {
         throw new Error('Failed to add lab manager.');
     }
@@ -34,43 +70,20 @@ module.exports.labManagerSignUp= async (labManagerInfo) => {
 
 module.exports.labAdminSignUp = async (labAdminInfo) => {
     try{
-        const labAdminModel = require('../models/LabAdmin');
+        // hash the password
+        let hashedPassword = await bcrypt.hash(superAdminInfo.password, 12);
+
         const labAdmin = new labAdminModel({
             name: labAdminInfo.name,
             email: labAdminInfo.email,
             phoneNumber: labAdminInfo.phoneNumber,
             username: labAdminInfo.username,
-            password: labAdminInfo.password,
+            password: hashedPassword,
             hospital: labAdminInfo.hospitalName
         });
-        const labAdminStatus = await labAdmin.save();
-        return labAdminStatus;
+        await labAdmin.save();
     }catch (err) {
         throw new Error('Failed to add lab admin.');
     }
 };
 
-module.exports.addAccount = async (accInfo) => {
-    try{
-        var status;
-        if(accInfo.role == "Super Admin"){
-            status = this.superAdminSignup(accInfo);
-        }
-        else if(accInfo.role == "Lab Manager"){
-            status = this.labManagerSignUp(accInfo);
-        }
-        else if (accInfo.role == "Lab Admin") {
-            status = this.labAdminSignUp(accInfo);
-        }
-        else if (accInfo.role == "Doctor"){
-            // status = this.doctorSignUp(accInfo);
-        }
-        else if (accInfo.role == "Donor") {
-            // status = this.donorSignUp(accInfo);
-        }
-        return status;
-    } catch (err) {
-       throw new Error('Could not add hospital.');
-    }
-
-};

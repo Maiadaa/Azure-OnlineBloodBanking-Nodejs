@@ -7,7 +7,6 @@ const hospitalsController = require('../controllers/hospitals');
 // create an instance of Express Router.
 const hospitalsRouter = Router();
 
-// GET request on products route '/', will invoke the getHospitals method in the hospitals controller.
 hospitalsRouter.post('/', hospitalsController.addHospital);
 hospitalsRouter.get('/', hospitalsController.getHospitals);
 hospitalsRouter.put('/:hospitalID', hospitalsController.editHospital);
