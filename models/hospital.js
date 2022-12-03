@@ -22,7 +22,7 @@ const hospital = new Schema({
         required: true
     },
     inventoryID: {
-        type: 'String',
+        type: Schema.Types.ObjectId,
         required:false
     }
 });

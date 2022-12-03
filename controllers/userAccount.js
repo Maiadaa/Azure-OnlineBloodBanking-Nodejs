@@ -79,4 +79,59 @@ module.exports.postLogin = async (req, res) => {
     });
   }
 };
-    
+
+module.exports.manageSuperAdminAccount = async (req, res) => {
+  try{
+    const superAdminInfo = {
+      name: req.body.name,
+      email: req.body.email,
+      PhoneNumber: req.body.PhoneNumber,
+      username: req.body.username,
+      password: req.body.password
+    };
+    const status = await userAccService.editSuperAdminAccount(superAdminInfo);
+    return status;
+  }catch (error) {
+    res.status(500).send({
+      error: error.message
+    });
+  }
+};
+
+module.exports.manageLabManagerAccount = async (req, res) => {
+  try{
+    const labManagerInfo = {
+      name: req.body.name,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      username: req.body.username,
+      password: req.body.password,
+      hospital: req.body.hospital,
+    };
+    const status = await userAccService.ediLabManagerAccount(labManagerInfo);
+    return status;
+  }catch (error) {
+    res.status(500).send({
+      error: error.message
+    });
+  }
+};
+
+module.exports.manageSuperAdminAccount = async (req, res) => {
+  try{
+    const labAdminInfo = {
+      name: req.body.name,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      username: req.body.username,
+      password: req.body.password,
+      hospital: req.body.hospital,
+    };
+    const status = await userAccService.editLabAdminAccount(labAdminInfo);
+    return status;
+  }catch (error) {
+    res.status(500).send({
+      error: error.message
+    });
+  }
+};

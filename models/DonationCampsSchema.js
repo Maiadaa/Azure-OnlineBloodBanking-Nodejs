@@ -23,7 +23,7 @@ const DonationCampsSchema = new Schema({
     },
     donorReservations:[{
         donorID: {
-            type: 'String',
+            type: Schema.Types.ObjectId,
             required: true
         },
         timeSlot: {

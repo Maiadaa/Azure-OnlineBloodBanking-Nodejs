@@ -8,7 +8,7 @@ module.exports.addHospital = async (hospitalInfo) => {
       name: hospitalInfo.name,
       email: hospitalInfo.email,
       Address: hospitalInfo.Address,
-      //inventoryID: hospitalInfo.inventoryID
+      //inventoryID: new ObjectId(hospitalInfo.inventoryID)
     });
 
     const status = await hospital.save();

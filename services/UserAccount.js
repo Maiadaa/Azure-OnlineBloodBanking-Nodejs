@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-
+const { ObjectId } = require('mongoose').Types;
 const superAdminModel = require('../models/SuperAdmin');
 const labManagerModel = require('../models/LabManagerSchema');
 const labAdminModel = require('../models/LabAdmin');
@@ -135,7 +135,7 @@ module.exports.labManagerSignUp= async (labManagerInfo) => {
         const labManager = new labManagerModel({
             username: labManagerInfo.username,
             password: hashedPassword,
-            hospital: labManagerInfo.hospitalName
+            hospital: new ObjectId(labManagerInfo.hospitalId)
         });
         await labManager.save();
     }catch (err) {
@@ -154,7 +154,7 @@ module.exports.labAdminSignUp = async (labAdminInfo) => {
             phoneNumber: labAdminInfo.phoneNumber,
             username: labAdminInfo.username,
             password: hashedPassword,
-            hospital: labAdminInfo.hospitalName
+            hospital: new ObjectId(labAdminInfo.hospitalId)
         });
         await labAdmin.save();
     }catch (err) {
@@ -162,3 +162,38 @@ module.exports.labAdminSignUp = async (labAdminInfo) => {
     }
 };
 
+/*hagrass*/
+module.exports.editSuperAdminAccount = async (superAdminInfo) => {
+    try{
+        const hashedPassword = await bcrypt.hash(superAdminInfo.password, 12);
+        superAdminInfo.password = hashedPassword;
+        const status = superAdminModel.findByIdAndUpdate(superAdminInfo._id, superAdminInfo);
+        return status;
+    }catch(err){
+        throw new Error('can not edit super admin account');
+    }
+};
+
+module.exports.ediLabManagerAccount = async (labManagerInfo) => {
+    try{
+        const hashedPassword = await bcrypt.hash(labManagerInfo.password, 12);
+        labManagerInfo.password = hashedPassword;
+        labManagerInfo.hospitalId = new ObjectId(labManagerInfo.hospitalId);
+        const status = labAdminModel.findByIdAndUpdate(labManagerInfo._id, labManagerInfo);
+        return status;
+    }catch(err){
+        throw new Error('can not edit lab manager account');
+    }
+};
+
+module.exports.editLabAdminAccount = async (labAdminInfo) => {
+    try{
+        const hashedPassword = await bcrypt.hash(labAdminInfo.password, 12);
+        labAdminInfo.password = hashedPassword;
+        labAdminInfo.hospitalId = new ObjectId(labAdminInfo.hospitalId);
+        const status = labAdminModel.findByIdAndUpdate(labAdminInfo._id, labAdminInfo);
+        return status;
+    }catch(err){
+        throw new Error('can not edit lab admin account');
+    }
+};

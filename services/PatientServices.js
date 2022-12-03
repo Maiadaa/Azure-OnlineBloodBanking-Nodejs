@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongoose').Types;
 const PatientModel = require('../models/Patient');
 
 module.exports.FindAllPatients = async () => {
@@ -18,7 +19,7 @@ module.exports.addNewPatient = async (pateitnInfo) => {
           Address: pateitnInfo.Address,
           Condition: pateitnInfo.Condition,
           BloodType: pateitnInfo.BloodType,
-          hospitalId: pateitnInfo.hospitalId,
+          hospitalId: new ObjectId(pateitnInfo.hospitalId),
           Request: pateitnInfo.Request
       });
       const createdPatient = await Patient.save();

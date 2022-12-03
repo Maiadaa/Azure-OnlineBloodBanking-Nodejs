@@ -8,7 +8,7 @@ const patientRouter = Router();
 
 patientRouter.get('/', PatientContoller.getPatients);
 
-patientRouter.post('/', patientsValidator.validateBloodBag(), PatientContoller.postPatient);
+patientRouter.post('/', patientsValidator.validatePostPatient(), PatientContoller.postPatient);
 
 patientRouter.get('/:patientID', PatientContoller.getPatientByID);
 

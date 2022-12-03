@@ -25,8 +25,8 @@ const DoctorSchema = new Schema({
         type: 'String',
         required: true 
     },
-    hospital:{
-        type: 'String',
+    hospitalId:{
+        type: Schema.Types.ObjectId,
         required: true
     }
 });

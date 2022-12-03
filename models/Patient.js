@@ -26,7 +26,7 @@ const PatientSchema = new Schema({
         required: true
     },
     hospitalId:{
-        type: 'String',
+        type: Schema.Types.ObjectId,
         required: true
     },
     Request: [

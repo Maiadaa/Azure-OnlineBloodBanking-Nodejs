@@ -1,5 +1,4 @@
 const {Schema, model} = require('mongoose');
-const hospital = require('HospitalSchema');
 
 const LabAdminSchema = new Schema({
     name: {
@@ -22,8 +21,8 @@ const LabAdminSchema = new Schema({
         type: 'String',
         required: true
     },
-    hospital:{
-        type: 'String',
+    hospitalId:{
+        type: Schema.Types.ObjectId,
         required: true
     }
 });
