@@ -150,7 +150,7 @@ module.exports.modifyBagRequest = async (req, res) => {
   }
 };
 
-module.exports.accept_bag_request = async (req, ser) => {
+module.exports.accept_bag_request = async (req, res) => {
   try{
     const patientID = req.params.patientID;
     const patient = await pateitnService.findPatientById(patientID);
@@ -167,7 +167,7 @@ module.exports.accept_bag_request = async (req, ser) => {
       if(patient.Request[i] == ReqInfo && patient.Request[i].Status == 'pending'){
         for(var j = 0; j < inventory.BloodBags.length; j++){
           if(inventory.BloodBags[j].bloodType == patient.Request[i].BloodType && inventory.BloodBags[j].quantity >= patient.Request[i].Amount){
-            inventory.BloodBags[j].quantity -=  patient.Request[i].Amount;
+            inventory.BloodBags[j].quantity ==  patient.Request[i].Amount;
             patient.Request[i].Status = 'Accepted';
             const returnPatient = await pateitnService.acceptBagRequest(patient);
             const returnInventory = await bankInventoryService.acceptReqModifyAmount(inventory);

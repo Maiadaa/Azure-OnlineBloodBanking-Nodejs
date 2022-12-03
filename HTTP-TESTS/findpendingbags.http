@@ -1,0 +1,2 @@
+get http://localhost:3000/BloodInventory/ShowAllPendingBags/638b833e651e1137d4e5c5d8
+Content-Type: application/json

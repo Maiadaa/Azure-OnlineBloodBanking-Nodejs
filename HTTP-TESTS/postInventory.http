@@ -1,0 +1,10 @@
+post http://localhost:3000/BloodInventory/CreateBloodBankInventory/
+Content-Type: application/json
+
+{
+    "PendingBloodBags" : [],
+    "ABloodBags" : [],
+    "ABBloodBags" : [],
+    "BBloodBags" : [],
+    "OloodBags" : []
+}

@@ -2,8 +2,10 @@ const BloodBankInventoryService = require('../services/BloodBankInventory');
 
 module.exports.postBloodBag = async (req,res) =>
 {
+    const bankInventory = await BloodBankInventoryService.findBankInventoryById(req.params.inventoryID);
     const BloodBagInfo = 
     {
+        bloodBagType : req.body.bloodBagType,
         HBV : req.body.HBV,
         HCV : req.body.HCV,
         HIV : req.body.HIV,
@@ -14,15 +16,15 @@ module.exports.postBloodBag = async (req,res) =>
         CMV : req.body.CMV,
         Babesia : req.body.Babesia,
         BacterialContamination : req.body.BacterialContamination,
-        quantity : req.body.quantity,
         status : req.body.status
     };
     try
     {
-        const addedBloodBag = await BloodBankInventoryService.InsertBloodBag(BloodBagInfo);
+        
+        const addedBloodBag = await BloodBankInventoryService.InsertBloodBag(BloodBagInfo,bankInventory);
 
         res.status(201).send({
-            msg: 'Blood Bag added successfully.',
+            msg: 'Blood Bag added to pending bags successfully.',
             BloodBagID: addedBloodBag._id
         });
     }
@@ -34,4 +36,47 @@ module.exports.postBloodBag = async (req,res) =>
         });
     }
     
+};
+
+module.exports.postBloodInventory = async (req,res) =>
+{
+    const BloodInventoryInfo = 
+    {
+        PendingBloodBags : req.body.PendingBloodBags,
+        ABloodBags : req.body.ABloodBags,
+        ABBloodBags : req.body.ABBloodBags,
+        BBloodBags : req.body.BBloodBags,
+        OBloodBags : req.body.OBloodBags,
+    };
+    try
+    {
+        const addedBloodInventory = await BloodBankInventoryService.CreateBloodInventory(BloodInventoryInfo);
+
+        res.status(201).send({
+            msg: 'Blood Inventory added successfully.',
+            BloodInventoryID: addedBloodInventory._id
+        });
+    }
+    catch(err)
+    {
+        res.status(500);
+        res.send({
+            error: err.message
+        });
+    }
+    
+};
+module.exports.findPendingBags = async (req, res) => {
+    try
+    {
+        const PendingBags = await BloodBankInventoryService.FindAllPendingBloodBags(req.params.inventoryID);
+        res.send({PendingBags});
+    }
+    catch(err)
+    {
+        res.status(500);
+        res.send({
+            error: err
+        });
+    }
 };

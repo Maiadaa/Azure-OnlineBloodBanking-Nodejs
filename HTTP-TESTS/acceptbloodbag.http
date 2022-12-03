@@ -1,0 +1,17 @@
+post http://localhost:3000/BloodInventory/AcceptBloodBag/638b833e651e1137d4e5c5d8
+Content-Type: application/json
+
+{
+        "bloodBagType" : "O" ,
+        "HBV" : "1",
+        "HCV" : "0",
+        "HIV" : "1",
+        "HTLV" : "0",
+        "syphilis" : "0" ,
+        "WNV" : "0",
+        "TrypanosmaCruzy" : "1" ,
+        "CMV" : "1",
+        "Babesia" : "1" ,
+        "BacterialContamination" : "0" ,
+        "status" : "Pending"
+}
