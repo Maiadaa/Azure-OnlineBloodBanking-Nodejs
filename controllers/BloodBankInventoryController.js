@@ -129,4 +129,17 @@ module.exports.postAcceptBloodBag = async (req,res) =>
             error: err.message
         });
     } 
+};
+module.exports.postRejectBloodBag = async (req,res) =>
+{
+    try
+    {
+        const status =  BloodBankInventoryService.RejectBloodBag(req.params.hospitalID, req.params.BloodBagID);
+    }
+    catch(err)
+    {
+        res.status(500).send({
+            error: err.message
+        });
+    } 
 }

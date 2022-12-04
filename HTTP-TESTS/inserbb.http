@@ -1,4 +1,4 @@
-put http://localhost:3000/BloodInventory/AddBloodBag/638b833e651e1137d4e5c5d8
+put http://localhost:3000/BloodInventory/AddBloodBag/638c22ae813515cffe5508c7
 Content-Type: application/json
 
 {

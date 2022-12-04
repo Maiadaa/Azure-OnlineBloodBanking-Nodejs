@@ -1,2 +1,2 @@
-post http://localhost:3000/BloodInventory/AcceptBloodBag/638c063763698e1005f51465/638ccf560c71153257beac60
+post http://localhost:3000/BloodInventory/AcceptBloodBag/638c063763698e1005f51465/638cdb3afa043175341ce463
 Content-Type: application/json
