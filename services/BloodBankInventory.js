@@ -1,10 +1,40 @@
 const BloodBagModel = require('../models/BloodInventory');
 
-module.exports.InsertBloodBag = async (bloodBagInfo,bankInventory) =>
+module.exports.InsertBloodBagRequest = async (bloodBagInfo,bankInventory) =>
 {
     try
     {
         bankInventory.PendingBloodBags.push(bloodBagInfo);
+        const addedBloodBag = await BloodBagModel.findByIdAndUpdate(bankInventory._id,bankInventory);
+        return addedBloodBag;
+    }
+    catch(error)
+    {
+        console.log(error);
+        throw new Error ('Could not add Blood Bag into Blood Bag inventory');
+    }
+};
+module.exports.InsertBloodBag = async (bloodBagInfo,bankInventory) =>
+{
+    try
+    {
+        bloodType = bloodBagInfo.bloodBagType;
+        if(bloodType === "O")
+        {
+          bankInventory.OBloodBags.push(bloodBagInfo);
+        }
+        if(bloodType === "A")
+        {
+          bankInventory.ABloodBags.push(bloodBagInfo);
+        }
+        if(bloodType === "B")
+        {
+          bankInventory.BBloodBags.push(bloodBagInfo);
+        }
+        if(bloodType === "AB")
+        {
+          bankInventory.ABBloodBags.push(bloodBagInfo);
+        }
         const addedBloodBag = await BloodBagModel.findByIdAndUpdate(bankInventory._id,bankInventory);
         return addedBloodBag;
     }
@@ -46,24 +76,24 @@ module.exports.CreateBloodInventory = async (inventoryInfo) =>
     throw new Error('could not create blood inventory.');
   }
 };
-module.exports.AcceptBloodBag = async (BloodBagID,) =>
+module.exports.AcceptBloodBag = async (BloodBagID,bankInventory) =>
 {
   const tempBloodBag = await BloodBagModel.PendingBloodBags.findById(BloodBagID);
   try
     {
-      if(BloodBagInfo.bloodBagType === "O" )
+      if(tempBloodBag.bloodBagType === "O" )
       {
         bankInventory.OBloodBags.push(tempBloodBag);
       }
-      if(BloodBagInfo.bloodBagType === "A" )
+      if(tempBloodBag.bloodBagType === "A" )
       {
         bankInventory.ABloodBags.push(tempBloodBag);
       }
-      if(BloodBagInfo.bloodBagType === "AB" )
+      if(tempBloodBag.bloodBagType === "AB" )
       {
         bankInventory.ABBloodBags.push(tempBloodBag);
       }
-      if(BloodBagInfo.bloodBagType === "B" )
+      if(tempBloodBag.bloodBagType === "B" )
       {
         bankInventory.BBloodBags.push(tempBloodBag);
       }
