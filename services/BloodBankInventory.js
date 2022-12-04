@@ -1,4 +1,3 @@
-const BloodInventoryModel = require('../models/BloodInventory');
 const BloodBagModel = require('../models/BloodInventory');
 const HospitalModel = require('../models/hospital');
 
@@ -82,19 +81,25 @@ module.exports.AcceptBloodBag = async (hospitalID, BloodBagID) =>
 { 
   try
     {
-      const hospital = await HospitalModel.findById(hospitalID);
-      const inventory = await BloodInventoryModel.findById(hospital.inventoryID._id);
-      const tempBloodBag = await BloodInventoryModel.findById(BloodBagID);
-
-      // remove from pending array 
-      const removalStatus = await inventory.PendingBloodBags.pull({_id:BloodBagID});
+      var hospital = await HospitalModel.findById(hospitalID);
+      var inventory = await BloodBagModel.findById(hospital.inventoryID._id);
+      var tempBloodBag = await BloodBagModel.find(BloodBagID);
       
       // update bag status 
-      const newBag = tempBloodBag;
       newBag = {
-        status: "Accepted"
+        bloodBagType: tempBloodBag.bloodBagType,
+        status: "Acceptedd",
+        HBV: tempBloodBag.HBV
+        /*HCV: tempBloodBag.HCV,
+        HIV: tempBloodBag.HIV,
+        HTLV: tempBloodBag.HTLV,
+        syphilis: tempBloodBag.syphilis,
+        BacterialContamination: tempBloodBag.BacterialContamination,
+        Babesia: tempBloodBag.Babesia,
+        CMV: tempBloodBag.CMV,
+        TrypanosomaCruzi: tempBloodBag.TrypanosomaCruzi,
+        WNV: tempBloodBag.WNV*/
       };
-      console.log(newBag);
 
       // Add bag details to the relavent array 
       if(tempBloodBag.bloodBagType === "O" )
@@ -113,12 +118,14 @@ module.exports.AcceptBloodBag = async (hospitalID, BloodBagID) =>
       {
         inventory.BBloodBags.push(newBag);
       }
+
       const acceptedBloodBag = await BloodBagModel.findByIdAndUpdate(inventory._id, inventory);
-      return res.status(201).send({
-        removalStatus,
-        acceptedBloodBag,
-        msg: "Bag marked as accepted successfully."
-      });
+      // remove from pending array 
+      const bagIdx = inventory.PendingBloodBags.indexOf({_id: BloodBagID});
+      inventory.PendingBloodBags.splice(bagIdx, 1);
+      const status = await BloodBagModel.findByIdAndUpdate(inventory._id, inventory);
+
+     return status;
     }
     catch(error)
     {

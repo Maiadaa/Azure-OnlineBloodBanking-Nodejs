@@ -2,7 +2,20 @@ post http://localhost:3000/BloodInventory/CreateBloodBankInventory/
 Content-Type: application/json
 
 {
-    "PendingBloodBags" : [],
+    "PendingBloodBags" : [{
+        "bloodBagType": "AB",
+            "HBV": "true",
+            "HCV": "true",
+            "HIV": "true",
+            "HTLV": "true",
+            "syphilis": "true",
+            "WNV": "true",
+            "TrypanosomaCruzi" : "true",
+            "CMV": "true",
+            "Babesia": "true",
+            "BacterialContamination" : "true",
+            "status": "Pending"
+    }],
     "ABloodBags" : [],
     "ABBloodBags" : [],
     "BBloodBags" : [],
