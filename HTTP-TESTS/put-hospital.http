@@ -1,4 +1,4 @@
-put http://localhost:3000/hospitals/6388ded989c2a3feaa5420af
+put http://localhost:3000/hospitals/editHospital/6388ded989c2a3feaa5420af
 Content-Type: application/json
 
 {

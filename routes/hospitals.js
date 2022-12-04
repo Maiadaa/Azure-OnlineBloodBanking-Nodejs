@@ -7,10 +7,12 @@ const hospitalsController = require('../controllers/hospitals');
 // create an instance of Express Router.
 const hospitalsRouter = Router();
 
-hospitalsRouter.post('/', hospitalsController.addHospital);
+hospitalsRouter.post('/addHospital', hospitalsController.addHospital);
 hospitalsRouter.get('/', hospitalsController.getHospitals);
-hospitalsRouter.put('/:hospitalID', hospitalsController.editHospital);
+hospitalsRouter.put('/editHospital/:hospitalID', hospitalsController.editHospital);
 hospitalsRouter.delete('/:hospitalID', hospitalsController.delHospital);
+hospitalsRouter.delete('/report/:hospitalID', hospitalsController.generateReport);
+
 
 // export the router instance 
 module.exports = hospitalsRouter;

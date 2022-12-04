@@ -1,3 +1,4 @@
+const { isObjectIdOrHexString } = require('mongoose');
 const hospitalsService = require('../services/hospitals');
 
 // add hospital function
@@ -6,14 +7,21 @@ module.exports.addHospital = async (req, res) => {
     //check if hospital name needed to be added is not already in the system
 
     // using inventory service for the add inventory function 
-    /*const inventoryService = require('../services/BloodBankInventory');
-    const inventoryStatus = await inventoryService.addInventory({[]});*/
+    const initialInventory = {
+      PendingBloodBags: [],
+      OBloodBags: [],
+      ABloodBags: [],
+      BBloodBags: [],
+      ABBloodBags: []
+    }
+    const inventoryService = require('../services/BloodBankInventory');
+    const inventoryStatus = await inventoryService.CreateBloodInventory({initialInventory});
 
     const hospitalinfo = {
       name: req.body.name,
       email: req.body.email,
       Address: req.body.Address,
-      /*inventoryID: inventoryStatus._id*/ // reference the above-created inventory instance 
+      inventoryID: new ObjectId(inventoryStatus._id) // reference the above-created inventory instance 
     };
     const hospitalStatus = await hospitalsService.addHospital(hospitalinfo);
 
@@ -32,8 +40,8 @@ module.exports.addHospital = async (req, res) => {
 
     return res.status(201).send({
       hospitalStatus,
-      //inventoryStatus,
-      //accStatus, 
+      inventoryStatus,
+      accStatus, 
       msg: "Hospital, its labManager and blood inventory, were created successfully."
     });
 
@@ -89,3 +97,16 @@ module.exports.delHospital = async(req, res) => {
 // Generate report function 
 // Multiple services' functions to collect el report object 
 // Report object is to be sent to el front end components 
+module.exports.generateReport = async (req, res) => {
+  try {
+    const hospitals = await hospitalsService.getHospitalReport(req.params.hospitalID);
+    
+    return res.status(201).send({ 
+      hospitals,
+      msg: "Hospital report generated successfully."
+    });
+
+  }  catch (err) {
+    return res.status(500).send({error: err.message});
+  }
+};

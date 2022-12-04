@@ -1,9 +1,9 @@
 const {Schema, model} = require('mongoose');
 
 const DonationCampsSchema = new Schema({
-    hospitalName: 
+    hospital: 
     {
-        type: 'String',
+        type: Schema.Types.ObjectId,
         required: true
     },
     PhoneNumber: 

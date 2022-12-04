@@ -1,4 +1,4 @@
-post http://localhost:3000/hospitals
+post http://localhost:3000/hospitals/addHospital
 Content-Type: application/json
 
 {

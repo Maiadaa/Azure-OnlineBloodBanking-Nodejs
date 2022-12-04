@@ -28,6 +28,10 @@ const DonorSchema = new Schema({
     nationality: {
         type: 'String',
         required: true
+    },
+    gender:{
+        type: 'String',
+        required: true
     }
 });
 
