@@ -86,11 +86,12 @@ module.exports.AcceptBloodBag = async (hospitalID, BloodBagID) =>
       var tempBloodBag = await BloodBagModel.find(BloodBagID);
       
       // update bag status 
-      newBag = {
+      newBag = 
+      {
         bloodBagType: tempBloodBag.bloodBagType,
-        status: "Acceptedd",
-        HBV: tempBloodBag.HBV
-        /*HCV: tempBloodBag.HCV,
+        status: "Accepted",
+        HBV: tempBloodBag.HBV,
+        HCV: tempBloodBag.HCV,
         HIV: tempBloodBag.HIV,
         HTLV: tempBloodBag.HTLV,
         syphilis: tempBloodBag.syphilis,
@@ -98,28 +99,11 @@ module.exports.AcceptBloodBag = async (hospitalID, BloodBagID) =>
         Babesia: tempBloodBag.Babesia,
         CMV: tempBloodBag.CMV,
         TrypanosomaCruzi: tempBloodBag.TrypanosomaCruzi,
-        WNV: tempBloodBag.WNV*/
+        WNV: tempBloodBag.WNV
       };
 
       // Add bag details to the relavent array 
-      if(tempBloodBag.bloodBagType === "O" )
-      {
-        inventory.OBloodBags.push(newBag);
-      }
-      if(tempBloodBag.bloodBagType === "A" )
-      {
-        inventory.ABloodBags.push(newBag);
-      }
-      if(tempBloodBag.bloodBagType === "AB" )
-      {
-        inventory.ABBloodBags.push(newBag);
-      }
-      if(tempBloodBag.bloodBagType === "B" )
-      {
-        inventory.BBloodBags.push(newBag);
-      }
-
-      const acceptedBloodBag = await BloodBagModel.findByIdAndUpdate(inventory._id, inventory);
+      const addedBag = await this.InsertBloodBag(newBag,inventory);
       // remove from pending array 
       const bagIdx = inventory.PendingBloodBags.indexOf({_id: BloodBagID});
       inventory.PendingBloodBags.splice(bagIdx, 1);

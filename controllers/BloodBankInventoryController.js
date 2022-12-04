@@ -37,7 +37,43 @@ module.exports.postBloodBagRequest = async (req,res) =>
     }
     
 };
+module.exports.postBloodBag = async (req,res) =>
+{
+    const bankInventory = await BloodBankInventoryService.findBankInventoryById(req.params.inventoryID);
+    const BloodBagInfo = 
+    {
+        bloodBagType : req.body.bloodBagType,
+        HBV : req.body.HBV,
+        HCV : req.body.HCV,
+        HIV : req.body.HIV,
+        HTLV : req.body.HTLV,
+        syphilis : req.body.syphilis,
+        WNV : req.body.WNV,
+        TrypanosmaCruzy : req.body.TrypanosmaCruzy,
+        CMV : req.body.CMV,
+        Babesia : req.body.Babesia,
+        BacterialContamination : req.body.BacterialContamination,
+        status : req.body.status
+    };
+    try
+    {
+        
+        const addedBloodBag = await BloodBankInventoryService.InsertBloodBag(BloodBagInfo,bankInventory);
 
+        res.status(201).send({
+            msg: 'Blood Bag added to Relevant Blood Type array successfully.',
+            BloodBagID: addedBloodBag._id
+        });
+    }
+    catch(err)
+    {
+        res.status(500);
+        res.send({
+            error: err.message
+        });
+    }
+    
+};
 module.exports.postBloodInventory = async (req,res) =>
 {
     const BloodInventoryInfo = 
@@ -66,6 +102,7 @@ module.exports.postBloodInventory = async (req,res) =>
     }
     
 };
+
 module.exports.findPendingBags = async (req, res) => {
     try
     {
@@ -82,13 +119,14 @@ module.exports.findPendingBags = async (req, res) => {
 };
 module.exports.postAcceptBloodBag = async (req,res) =>
 {
-    try{
+    try
+    {
         const status =  BloodBankInventoryService.AcceptBloodBag(req.params.hospitalID, req.params.BloodBagID);
-    }catch(err)
+    }
+    catch(err)
     {
         res.status(500).send({
             error: err.message
         });
-    }
-    
+    } 
 }

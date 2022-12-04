@@ -1,0 +1,17 @@
+put http://localhost:3000/BloodInventory/InsertBloodBag/638c22ae813515cffe5508c7
+Content-Type: application/json
+
+{
+        "bloodBagType" : "B" ,
+        "HBV" : "1",
+        "HCV" : "0",
+        "HIV" : "1",
+        "HTLV" : "0",
+        "syphilis" : "0" ,
+        "WNV" : "0",
+        "TrypanosmaCruzy" : "1" ,
+        "CMV" : "1",
+        "Babesia" : "1" ,
+        "BacterialContamination" : "0" ,
+        "status" : "Pending"
+}

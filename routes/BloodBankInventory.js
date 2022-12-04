@@ -6,4 +6,5 @@ BloodBankInventoryRouter.post('/CreateBloodBankInventory/',InventoryController.p
 BloodBankInventoryRouter.put('/AddBloodBag/:inventoryID',InventoryController.postBloodBagRequest);
 BloodBankInventoryRouter.get('/ShowAllPendingBags/:inventoryID',InventoryController.findPendingBags);
 BloodBankInventoryRouter.post('/AcceptBloodBag/:hospitalID/:bloodBagID',InventoryController.postAcceptBloodBag);
+BloodBankInventoryRouter.put('/InsertBloodBag/:inventoryID',InventoryController.postBloodBag);
 module.exports = BloodBankInventoryRouter;
