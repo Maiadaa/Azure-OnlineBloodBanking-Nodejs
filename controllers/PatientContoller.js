@@ -2,7 +2,7 @@ const {validationResult} = require('express-validator');
 const pateitnService = require('../services/PatientServices');
 const hospitalService = require('../services/hospitals');
 const bankInventoryService = require('../services/BloodBankInventory');
-
+const donationService = require('../services/BloodBankInventory');
 module.exports.getPatients = async (req, res) => {
     try{
         const pateitns = await pateitnService.FindAllPatients();
