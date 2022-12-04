@@ -3,6 +3,7 @@ const { ObjectId } = require('mongoose').Types;
 const BloodInventoryModel = require('../models/BloodInventory');
 const DonationCampsModel = require('../models/DonationCampsSchema');
 const hospitalModel = require('../models/hospital');
+const donorModel = require('../models/Donor');
 
 module.exports.addHospital = async (hospitalInfo) => {
   try {
@@ -59,22 +60,48 @@ module.exports.deleteHospital = async (hospital) => {
 
 module.exports.getHospitalReport = async (hospitalID) => {
   try{
-    const hospital = await hospitalModel.findById(hospitalID);
-    const inventory = await BloodInventoryModel.findById(hospitalID);
-    const donations = await DonationCampsModel.findById(hospitalID);
+    // annual report for a specific hospital 
 
-    var AType, BType, ABType, OType = 0;
+    const hospital = await hospitalModel.findById(hospitalID);
+    const inventory = await BloodInventoryModel.findById(hospital.inventoryID);
+    const donations = await DonationCampsModel.find({ hospital: hospitalID});
+
+    var AType, BType, ABType, OType = 0; // Num of donations per each blood type 
+    var AFemale, BFemale, ABFemale, OFemale = 0; // num of female donors for each blood type
+    var AMale, BMale, ABMale, OMale = 0; // num of male donors for each blood type
     var donor;
+
     for (var i; i < donations.donorReservations.length ; i++) {
-      donor = await donorModel.findById(i.donor._id);
-      if(i.bloodType == "AB"){
+      donor = await donorModel.findById(i.donorID._id);
+
+      if(donor.bloodType == "AB"){
         AType++;
-      }else if(i.bloodType == "B"){
+        if(donor.gender == "M"){
+          AMale++;
+        }else{
+          AFemale++;
+        }
+      }else if(donor.bloodType == "B"){
         BType++;
-      }else if(i.bloodType == "A"){
-        BType++;
-      }else if(i.bloodType == "O"){
-        BType++;
+        if(donor.gender == "M"){
+          BMale++;
+        }else{
+          BFemale++;
+        }
+      }else if(donor.bloodType == "A"){
+        AType++;
+        if(donor.gender == "M"){
+          AMale++;
+        }else{
+          AFemale++;
+        }
+      }else if(donor.bloodType == "O"){
+        OType++;
+        if(donor.gender == "M"){
+          OMale++;
+        }else{
+          OFemale++;
+        }
       }
     }
 
@@ -85,18 +112,20 @@ module.exports.getHospitalReport = async (hospitalID) => {
       ABMaleDonors: ABMale,
       totalBDonations: BType,
       BFemaleDonors: BFemale,
-      BMaleDonors: BDonors,
+      BMaleDonors: BMale,
       totalADonations: AType,
       AFemaleDonors: AFemale,
       AmaleDonors: AMale,
       totalODonations: OType,
       OFemaleDonors: OFemale,
       OMaleDonors: OMale,
+      // Num of blood bags in the inventory per each blood type 
       totalAB: inventory.ABBloodBags.length,
       totalB: inventory.BBloodBags.length,
       totalA: inventory.ABloodBags.length,
       totalO: inventory.OBloodBags.length
     }
+    
     return report;
 
   }catch(err){

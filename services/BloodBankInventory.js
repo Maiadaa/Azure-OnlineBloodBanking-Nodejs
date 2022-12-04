@@ -1,4 +1,6 @@
+const BloodInventoryModel = require('../models/BloodInventory');
 const BloodBagModel = require('../models/BloodInventory');
+const HospitalModel = require('../models/hospital');
 
 module.exports.InsertBloodBagRequest = async (bloodBagInfo,bankInventory) =>
 {
@@ -76,30 +78,47 @@ module.exports.CreateBloodInventory = async (inventoryInfo) =>
     throw new Error('could not create blood inventory.');
   }
 };
-module.exports.AcceptBloodBag = async (BloodBagID,bankInventory) =>
-{
-  const tempBloodBag = await BloodBagModel.PendingBloodBags.findById(BloodBagID);
+module.exports.AcceptBloodBag = async (hospitalID, BloodBagID) =>
+{ 
   try
     {
+      const hospital = await HospitalModel.findById(hospitalID);
+      const inventory = await BloodInventoryModel.findById(hospital.inventoryID._id);
+      const tempBloodBag = await BloodInventoryModel.findById(BloodBagID);
+
+      // remove from pending array 
+      const removalStatus = await inventory.PendingBloodBags.pull({_id:BloodBagID});
+      
+      // update bag status 
+      const newBag = tempBloodBag;
+      newBag = {
+        status: "Accepted"
+      };
+      console.log(newBag);
+
+      // Add bag details to the relavent array 
       if(tempBloodBag.bloodBagType === "O" )
       {
-        bankInventory.OBloodBags.push(tempBloodBag);
+        inventory.OBloodBags.push(newBag);
       }
       if(tempBloodBag.bloodBagType === "A" )
       {
-        bankInventory.ABloodBags.push(tempBloodBag);
+        inventory.ABloodBags.push(newBag);
       }
       if(tempBloodBag.bloodBagType === "AB" )
       {
-        bankInventory.ABBloodBags.push(tempBloodBag);
+        inventory.ABBloodBags.push(newBag);
       }
       if(tempBloodBag.bloodBagType === "B" )
       {
-        bankInventory.BBloodBags.push(tempBloodBag);
+        inventory.BBloodBags.push(newBag);
       }
-        BloodBagModel.PendingBloodBags.pull({_id:BloodBagID});
-        const acceptedBloodBag = await BloodBagModel.findByIdAndUpdate(bankInventory._id,bankInventory);
-        return acceptedBloodBag;
+      const acceptedBloodBag = await BloodBagModel.findByIdAndUpdate(inventory._id, inventory);
+      return res.status(201).send({
+        removalStatus,
+        acceptedBloodBag,
+        msg: "Bag marked as accepted successfully."
+      });
     }
     catch(error)
     {

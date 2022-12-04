@@ -52,7 +52,7 @@ module.exports.addHospital = async (req, res) => {
 
 module.exports.getHospitals = async (req, res) => {
   try {
-    const hospitals = await hospitalsService.getAllHospitals;
+    const hospitals = await hospitalsService.findAllHospitals();
     
     return res.send({ hospitals });
 
