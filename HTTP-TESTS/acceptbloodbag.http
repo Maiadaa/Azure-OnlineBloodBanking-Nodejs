@@ -1,6 +1,2 @@
-<<<<<<< Updated upstream
-put http://localhost:3000/BloodInventory/AcceptBloodBag/638c063763698e1005f51465/638cdb3afa043175341ce463
-=======
-put http://localhost:3000/BloodBag/AcceptBloodBag/638dd5cd67bbd547e11468f8
+put http://localhost:3000/BloodBag/AcceptBloodBag/638de43d5e81aee009f1f4b3
 Content-Type: application/json
->>>>>>> Stashed changes

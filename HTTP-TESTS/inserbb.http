@@ -1,8 +1,9 @@
-put http://localhost:3000/BloodInventory/AddBloodBag/638c22ae813515cffe5508c7
+post http://localhost:3000/BloodBag/InsertBloodBag
 Content-Type: application/json
 
 {
-        "bloodBagType" : "O" ,
+        "hospital": "638c063763698e1005f51465",
+        "bloodType" : "O" ,
         "HBV" : "1",
         "HCV" : "0",
         "HIV" : "1",
@@ -13,5 +14,5 @@ Content-Type: application/json
         "CMV" : "1",
         "Babesia" : "1" ,
         "BacterialContamination" : "0" ,
-        "status" : "Pending"
+        "pending" : "1"
 }

@@ -1,7 +1,6 @@
 const {validationResult} = require('express-validator');
 const pateitnService = require('../services/PatientServices');
-const hospitalService = require('../services/hospitals');
-const bankInventoryService = require('../services/bloodBag');
+const BloodBagsService = require('../services/bloodBag');
 
 module.exports.getPatients = async (req, res) => {
     try{
@@ -154,8 +153,8 @@ module.exports.accept_bag_request = async (req, res) => {
   try{
     const patientID = req.params.patientID;
     const patient = await pateitnService.findPatientById(patientID);
-    const hospital = await hospitalService.findHospitalById(patient.hospitalId);
-    const inventory = await bankInventoryService.findBankInventoryById(hospital.inventoryID);
+    const BloodBags = await BloodBagsService.FindAllBloodBags();
+
     const ReqInfo = {
       BloodType:  req.body.BloodType,
       Amount: req.body.Amount,
@@ -165,13 +164,13 @@ module.exports.accept_bag_request = async (req, res) => {
     };
     for(var i = 0; i < patient.Request.length; i++){
       if(patient.Request[i] == ReqInfo && patient.Request[i].Status == 'pending'){
-        for(var j = 0; j < inventory.BloodBags.length; j++){
-          if(inventory.BloodBags[j].bloodType == patient.Request[i].BloodType && inventory.BloodBags[j].quantity >= patient.Request[i].Amount){
-            inventory.BloodBags[j].quantity -=  patient.Request[i].Amount;
+        for(var j = 0; j < BloodBags.length; j++){
+          if(BloodBags[i].bloodType == patient.Request[i].BloodType){
+            
             patient.Request[i].Status = 'Accepted';
             const returnPatient = await pateitnService.acceptBagRequest(patient);
-            const returnInventory = await bankInventoryService.acceptReqModifyAmount(inventory);
-            if(returnPatient != null && returnInventory != null){
+            
+            if(){
               return res.status(201). send({
                 msg: 'accepted successfully',
                 Patient_Id: [patient._id]

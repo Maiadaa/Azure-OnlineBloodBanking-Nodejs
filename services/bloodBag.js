@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongoose').Types;
 const BloodBagModel = require('../models/BloodBag');
 
 module.exports.InsertBloodBagRequest = async (bloodBagInfo, bankInventory) => {
@@ -11,22 +12,25 @@ module.exports.InsertBloodBagRequest = async (bloodBagInfo, bankInventory) => {
     throw new Error('Could not add Blood Bag into Blood Bag inventory');
   }
 };
-module.exports.InsertBloodBag = async (bloodBagInfo, bankInventory) => {
+module.exports.InsertBloodBag = async (bloodBagInfo) => {
   try {
-    bloodType = bloodBagInfo.bloodBagType;
-    if (bloodType === "O") {
-      bankInventory.OBloodBags.push(bloodBagInfo);
-    }
-    if (bloodType === "A") {
-      bankInventory.ABloodBags.push(bloodBagInfo);
-    }
-    if (bloodType === "B") {
-      bankInventory.BBloodBags.push(bloodBagInfo);
-    }
-    if (bloodType === "AB") {
-      bankInventory.ABBloodBags.push(bloodBagInfo);
-    }
-    const addedBloodBag = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
+    const BloodBag = new BloodBagModel(
+    {
+        hospital: new ObjectId(bloodBagInfo.hospital),
+        bloodType : bloodBagInfo.bloodType,
+        HBV : bloodBagInfo.HBV,
+        HCV : bloodBagInfo.HCV,
+        HIV : bloodBagInfo.HIV,
+        HTLV : bloodBagInfo.HTLV,
+        syphilis : bloodBagInfo.syphilis,
+        WNV : bloodBagInfo.WNV,
+        TrypanosmaCruzy : bloodBagInfo.TrypanosmaCruzy,
+        CMV : bloodBagInfo.CMV,
+        Babesia : bloodBagInfo.Babesia,
+        BacterialContamination : bloodBagInfo.BacterialContamination,
+        pending : bloodBagInfo.pending
+    });
+    const addedBloodBag = await BloodBag.save();
     return addedBloodBag;
   }
   catch (error) {
@@ -58,11 +62,10 @@ module.exports.CreateBloodBag = async (bagInfo) => {
     throw new Error('could not create blood inventory.');
   }
 };
-module.exports.AcceptBloodBag = async (BloodBagID) => {
+module.exports.AcceptBloodBag = async (BloodBag) => {
   try {
-    const test = await BloodBagModel.updateOne({"_id": BloodBagID}, {"pending": false});
-
-    return test;
+    const test = await BloodBagModel.findByIdAndUpdate(BloodBag._id, BloodBag);
+    return BloodBagBloodBag;
   }
   catch (error) {
     console.log(error);
@@ -71,51 +74,26 @@ module.exports.AcceptBloodBag = async (BloodBagID) => {
 };
 
 /*hagrass*/
-module.exports.findBankInventoryById = async (bankInventoryID) => {
+module.exports.findBloodBagById = async (BloodBagID) => {
   try {
-    const inventory = await BloodBagModel.findById(bankInventoryID);
+    const inventory = await BloodBagModel.findById(BloodBagID);
     return inventory;
   } catch (err) {
-    throw new Error('Could not find bank inventory.');
+    throw new Error('Could not find blood bags.');
   }
 };
 
-module.exports.acceptReqModifyAbags = async (bankInventory) => {
-  try {
-    bankInventory.ABloodBags.pop();
-    const inventory = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
-    return true;
-  } catch (arr) {
-    throw new Error('can not update A bags');
+module.exports.deleteBloodBag = async (bloodBagId) => {
+  try{}catch(err){
+    throw new Error('Can not delete from blood bags');
   }
 };
 
-module.exports.acceptReqModifyBbags = async (bankInventory) => {
-  try {
-    bankInventory.BBloodBags.pop();
-    const inventory = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
-    return true;
-  } catch (arr) {
-    throw new Error('can not update B bags');
-  }
-};
-
-module.exports.acceptReqModifyABbags = async (bankInventory) => {
-  try {
-    bankInventory.ABBloodBags.pop();
-    const inventory = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
-    return true;
-  } catch (arr) {
-    throw new Error('can not update AB bags');
-  }
-};
-
-module.exports.acceptReqModifyObags = async (bankInventory) => {
-  try {
-    bankInventory.OBloodBags.pop();
-    const inventory = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
-    return true;
-  } catch (arr) {
-    throw new Error('can not update O bags');
+module.exports.FindAllBloodBags = async () => {
+  try{
+      const Bloodbags = await BloodBagModel.find();
+      return Bloodbags;
+  }catch (err){
+      throw new Error('can not font any blood bags');
   }
 };
