@@ -6,8 +6,7 @@ const dotenv = require('dotenv');
 const initiateDBConnection = require('./config/db');
 const patientRouter = require('./routes/PatientRoutes');
 const hospitalsRouter = require('./routes/hospitals');
-const BloodInventoryRouter = require('./routes/BloodBankInventory');
-const BloodBankInventoryRouter = require('./routes/BloodBankInventory');
+const BloodBagRouter = require('./routes/bloodBag');
 // Let the dotenv package read and parse environment variables in the ./config/.env file
 dotenv.config({ 
     path: './config/.env' 
@@ -22,7 +21,7 @@ app.use(express.json());
 
 app.use('/patient', patientRouter);
 app.use('/hospitals', hospitalsRouter);
-app.use('/BloodInventory', BloodBankInventoryRouter);
+app.use('/BloodBag', BloodBagRouter);
 
 app.listen(PORT, async() => {
     console.log(`Server has been started and is listening to port ${PORT}`);

@@ -4,6 +4,7 @@ const DonationCampsSchema = new Schema({
     hospital: 
     {
         type: Schema.Types.ObjectId,
+        ref: 'hospital',
         required: true
     },
     PhoneNumber: 
@@ -28,10 +29,6 @@ const DonationCampsSchema = new Schema({
         },
         timeSlot: {
             type: 'String',
-            required: true
-        },
-        bloodBagsQty:{
-            type: 'Number',
             required: true
         }
     }]

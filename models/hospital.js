@@ -20,10 +20,6 @@ const hospital = new Schema({
     {
         type: 'String',
         required: true
-    },
-    inventoryID: {
-        type: Schema.Types.ObjectId,
-        required:false
     }
 });
 

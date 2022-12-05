@@ -1,9 +1,13 @@
+<<<<<<< Updated upstream:controllers/BloodBankInventoryController.js
 const BloodBankInventoryService = require('../services/BloodBankInventory');
 const hospitalService = require('../services/hospitals');
+=======
+const BloodBagService = require('../services/bloodBag');
+>>>>>>> Stashed changes:controllers/bloodBag.js
 
 module.exports.postBloodBagRequest = async (req,res) =>
 {
-    const bankInventory = await BloodBankInventoryService.findBankInventoryById(req.params.inventoryID);
+    const bankInventory = await BloodBagService.findBankInventoryById(req.params.inventoryID);
     const BloodBagInfo = 
     {
         bloodBagType : req.body.bloodBagType,
@@ -22,7 +26,7 @@ module.exports.postBloodBagRequest = async (req,res) =>
     try
     {
         
-        const addedBloodBag = await BloodBankInventoryService.InsertBloodBagRequest(BloodBagInfo,bankInventory);
+        const addedBloodBag = await BloodBagService.InsertBloodBagRequest(BloodBagInfo,bankInventory);
 
         res.status(201).send({
             msg: 'Blood Bag added to pending bags successfully.',
@@ -40,7 +44,7 @@ module.exports.postBloodBagRequest = async (req,res) =>
 };
 module.exports.postBloodBag = async (req,res) =>
 {
-    const bankInventory = await BloodBankInventoryService.findBankInventoryById(req.params.inventoryID);
+    const bankInventory = await BloodBagService.findBankInventoryById(req.params.inventoryID);
     const BloodBagInfo = 
     {
         bloodBagType : req.body.bloodBagType,
@@ -59,7 +63,7 @@ module.exports.postBloodBag = async (req,res) =>
     try
     {
         
-        const addedBloodBag = await BloodBankInventoryService.InsertBloodBag(BloodBagInfo,bankInventory);
+        const addedBloodBag = await BloodBagService.InsertBloodBag(BloodBagInfo,bankInventory);
 
         res.status(201).send({
             msg: 'Blood Bag added to Relevant Blood Type array successfully.',
@@ -87,7 +91,7 @@ module.exports.postBloodInventory = async (req,res) =>
     };
     try
     {
-        const addedBloodInventory = await BloodBankInventoryService.CreateBloodInventory(BloodInventoryInfo);
+        const addedBloodInventory = await BloodBagService.CreateBloodInventory(BloodInventoryInfo);
 
         res.status(201).send({
             msg: 'Blood Inventory added successfully.',
@@ -107,7 +111,7 @@ module.exports.postBloodInventory = async (req,res) =>
 module.exports.findPendingBags = async (req, res) => {
     try
     {
-        const PendingBags = await BloodBankInventoryService.FindAllPendingBloodBags(req.params.inventoryID);
+        const PendingBags = await BloodBagService.FindAllPendingBloodBags(req.params.inventoryID);
         res.send({PendingBags});
     }
     catch(err)
@@ -122,7 +126,11 @@ module.exports.postAcceptBloodBag = async (req,res) =>
 {
     try
     {
-        const status =  BloodBankInventoryService.AcceptBloodBag(req.params.hospitalID, req.params.BloodBagID);
+        const output =  await BloodBagService.AcceptBloodBag(req.params.BloodBagID);
+        return res.status(201).send({
+            msg: "DONE",
+            output
+        });
     }
     catch(err)
     {
@@ -130,6 +138,7 @@ module.exports.postAcceptBloodBag = async (req,res) =>
             error: err.message
         });
     } 
+<<<<<<< Updated upstream:controllers/BloodBankInventoryController.js
 };
 module.exports.postRejectBloodBag = async (req,res) =>
 {
@@ -154,3 +163,6 @@ module.exports.postRejectBloodBag = async (req,res) =>
         });
     } 
 }
+=======
+};
+>>>>>>> Stashed changes:controllers/bloodBag.js
