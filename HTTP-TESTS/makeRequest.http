@@ -2,7 +2,7 @@ put http://localhost:3000/patient/requestBloodBag/638a80383bb6bc64ccce1180
 Content-Type: application/json
 
 {
-    "BloodType": "O",
+    "BloodType": "A",
     "Amount": 1,
     "Date": "12/22/2022",
     "Status": "pending",

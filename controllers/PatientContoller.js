@@ -117,6 +117,7 @@ module.exports.modifyBagRequest = async (req, res) => {
   }
   try{
     const patientID = req.params.patientID;
+    const requestID = req.params.RequesID;
     const patient = await pateitnService.findPatientById(patientID);
     const requestInfo = {
       BloodType:  req.body.BloodType,
@@ -127,7 +128,7 @@ module.exports.modifyBagRequest = async (req, res) => {
     };
     var oldRequest;
     for(let request of patient.Request){
-      if(request.Status == 'pending'){
+      if(request._id == requestID){
         oldRequest = request;
       }
     }
@@ -154,11 +155,11 @@ module.exports.accept_bag_request = async (req, res) => {
     const patientID = req.params.patientID;
     const requestID = req.params.RequesID;
     const patient = await pateitnService.findPatientById(patientID);
-    const BloodBags = await BloodBagsService.FindBloodBags();
     var counter = 0;
 
     for(var i = 0; i < patient.Request.length; i++){
       if(patient.Request[i]._id == requestID && patient.Request[i].Status == 'pending'){
+        const BloodBags = await BloodBagsService.FindBloodBags(patient.Request[i].BloodType);
         if(patient.Request[i].Amount <= BloodBags.length){
           for(var l = 0; l < patient.Request[i].Amount; l++){
             const returnBloodbag = await BloodBagsService.deleteBloodBag(BloodBags[l]);
@@ -166,27 +167,28 @@ module.exports.accept_bag_request = async (req, res) => {
               counter++;
             }
           }
+        }else{
+          patient.Request[i].Status = 'Rejected';
+          const returnPatient = await pateitnService.acceptBagRequest(patient);
+          return res.status(201). send({
+            msg: 'Not enough bags',
+            Patient_Id: [returnPatient._id]
+          });
         }
         if(counter == patient.Request[i].Amount){
           patient.Request[i].Status = 'Accepted';
           const returnPatient = await pateitnService.acceptBagRequest(patient);
           return res.status(201). send({
             msg: 'accepted successfully',
-            Patient_Id: [returnPatient._id]
+            Patient_Id: [patient.Request[i]._id]
           });
         }
       }
-
-        patient.Request[i].Status = 'Rejected';
-        const returnPatient = await pateitnService.acceptBagRequest(patient);
-        if(returnPatient){
-          return res.status(201). send({
-            msg: 'the request rejected',
-            patient: patient.Request
-          });
-        }
-      
     }
+    return res.status(201). send({
+      msg: 'the request rejected',
+      Patient_Id: [returnPatient._id]
+    });
   }catch(err){
     res.status(500);
     res.send({

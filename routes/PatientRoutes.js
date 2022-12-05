@@ -14,10 +14,10 @@ patientRouter.get('/:patientID', PatientContoller.getPatientByID);
 
 patientRouter.get('/viewRequest/:patientID', PatientContoller.viewBagrequest);
 
-patientRouter.put('/modifyRequest/:patientID', patientsValidator.validateBloodBag(), PatientContoller.modifyBagRequest);
+patientRouter.put('/modifyRequest/:patientID/:RequesID', patientsValidator.validateBloodBag(), PatientContoller.modifyBagRequest);
 
 patientRouter.put('/requestBloodBag/:patientID', patientsValidator.validateBloodBag(), PatientContoller.requestBloodBag);
 
-patientRouter.put('/acceptBagRequest/:patientID', patientsValidator.validateBloodBag(), PatientContoller.accept_bag_request);
+patientRouter.put('/acceptBagRequest/:patientID/:RequesID', PatientContoller.accept_bag_request);
 
 module.exports = patientRouter;

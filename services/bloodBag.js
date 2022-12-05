@@ -105,7 +105,7 @@ module.exports.findBloodBagById = async (BloodBagID) => {
 
 module.exports.deleteBloodBag = async (bloodBag) => {
   try{
-    const status = await hospitalModel.remove(bloodBag);
+    const status = await BloodBagModel.remove(bloodBag);
     return status;
   }catch(err){
     throw new Error('Can not delete from blood bags');

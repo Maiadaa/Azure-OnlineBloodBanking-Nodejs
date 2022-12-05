@@ -1,10 +1,1 @@
-put http://localhost:3000/patient/acceptBagRequest/638a80383bb6bc64ccce1180
-Content-Type: application/json
-
-{
-    "BloodType": "O",
-    "Amount": 1,
-    "Date": "12/22/2022",
-    "Status": "pending",
-    "Purpose": "problem with his legs"
-}
+put http://localhost:3000/patient/acceptBagRequest/638a80383bb6bc64ccce1180/638dfba9782f8a2457c3b00a
