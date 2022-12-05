@@ -4,8 +4,8 @@ const BloodBagsService = require('../services/bloodBag');
 
 module.exports.getPatients = async (req, res) => {
     try{
-        const pateitns = await pateitnService.FindAllPatients();
-        res.send({pateitns});
+        const patietns = await pateitnService.FindAllPatients();
+        res.send({patietns});
     }catch(err){
         res.status(500);
         res.send({
