@@ -72,7 +72,17 @@ module.exports.AcceptBloodBag = async (BloodBag) => {
     throw new Error('Could not accept Blood Bag / Can not remove from pending and add to the suitable blood type');
   }
 };
-
+module.exports.RejectBloodBag = async (BloodBagID) => {
+  try 
+  {
+    const removedBloodBag = await BloodBagModel.findByIdAndDelete(BloodBagID);
+    return removedBloodBag;
+  }
+  catch (error) {
+    console.log(error);
+    throw new Error('Could not reject blood bag / could not remove the blood bag from the system');
+  }
+};
 /*hagrass*/
 module.exports.findBloodBagById = async (BloodBagID) => {
   try {

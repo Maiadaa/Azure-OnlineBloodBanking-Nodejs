@@ -1,1 +1,1 @@
-put http://localhost:3000/BloodInventory/RejectBloodBag/638c063763698e1005f51465/638d5303d9e03ad8ad160c91
+delete http://localhost:3000/BloodBag/RejectBloodBag/638de43d5e81aee009f1f4b3

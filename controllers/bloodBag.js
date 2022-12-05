@@ -57,3 +57,20 @@ module.exports.postAcceptBloodBag = async (req,res) =>
         });
     } 
 };
+module.exports.postRejectloodBag = async (req,res) =>
+{
+    try
+    {
+        const output =  await BloodBagService.RejectBloodBag(BloodBagID);
+        return res.status(201).send({
+            msg: "blood bag removed from system successfully",
+            output
+        });
+    }
+    catch(err)
+    {
+        res.status(500).send({
+            error: err.message
+        });
+    } 
+};
