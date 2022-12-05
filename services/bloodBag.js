@@ -83,15 +83,18 @@ module.exports.findBloodBagById = async (BloodBagID) => {
   }
 };
 
-module.exports.deleteBloodBag = async (bloodBagId) => {
-  try{}catch(err){
+module.exports.deleteBloodBag = async (bloodBag) => {
+  try{
+    const status = await hospitalModel.remove(bloodBag);
+    return status;
+  }catch(err){
     throw new Error('Can not delete from blood bags');
   }
 };
 
-module.exports.FindAllBloodBags = async () => {
+module.exports.FindBloodBags = async (BloodType) => {
   try{
-      const Bloodbags = await BloodBagModel.find();
+      const Bloodbags = await BloodBagModel.find({bloodType: BloodType});
       return Bloodbags;
   }catch (err){
       throw new Error('can not font any blood bags');
