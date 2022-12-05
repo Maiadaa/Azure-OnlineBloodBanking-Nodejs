@@ -117,16 +117,11 @@ module.exports.AcceptBloodBag = async (hospitalID, BloodBagID) =>
         throw new Error ('Could not accept Blood Bag / Can not remove from pending and add to the suitable blood type');
     }
 };
-module.exports.RejectBloodBag = async (hospitalID,BloodBagID) =>
+module.exports.RejectBloodBag = async (bankInventory) =>
 {
     try
-    {
-        var hospital = await HospitalModel.findById(hospitalID);
-        var bankInventory = await BloodBagModel.findById(hospital.inventoryID._id);
-        //const bagIdx = bankInventory.PendingBloodBags.indexOf({_id: BloodBagID});
-        var updatedArray = await bankInventory.updateOne({_id: BloodBagID} , {$pullAll: {PendingBloodBags:[BloodBagID]}});
-
-        const addedBloodBag = await BloodBagModel.findByIdAndUpdate(bankInventory._id,bankInventory);
+    { 
+        const addedBloodBag = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
         return addedBloodBag;
     }
     catch(error)

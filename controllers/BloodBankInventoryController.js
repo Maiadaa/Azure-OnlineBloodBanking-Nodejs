@@ -1,4 +1,5 @@
 const BloodBankInventoryService = require('../services/BloodBankInventory');
+const hospitalService = require('../services/hospitals');
 
 module.exports.postBloodBagRequest = async (req,res) =>
 {
@@ -134,7 +135,17 @@ module.exports.postRejectBloodBag = async (req,res) =>
 {
     try
     {
-        const status =  BloodBankInventoryService.RejectBloodBag(req.params.hospitalID, req.params.BloodBagID);
+        const BloodBagID = req.params.bloodBagID;
+        const hospitalID = req.params.hospitalID;
+        const hospital = await hospitalService.findHospitalByID(hospitalID);
+        const bankInventory = await BloodBankInventoryService.findBankInventoryById(hospital.inventoryID._id);
+        for(var i = 0; i < bankInventory.PendingBloodBags.length; i++){
+            if(bankInventory.PendingBloodBags[i]._id == BloodBagID){
+              bankInventory.PendingBloodBags.splice(i, 1);
+            }
+          }
+        const status =  await BloodBankInventoryService.RejectBloodBag(bankInventory);
+        return res.send({status});
     }
     catch(err)
     {
