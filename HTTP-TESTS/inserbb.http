@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
         "hospital": "638c063763698e1005f51465",
-        "bloodType" : "O" ,
+        "bloodType" : "AB" ,
         "HBV" : "1",
         "HCV" : "0",
         "HIV" : "1",

@@ -57,13 +57,47 @@ module.exports.postAcceptBloodBag = async (req,res) =>
         });
     } 
 };
-module.exports.postRejectloodBag = async (req,res) =>
+module.exports.postRemoveBloodBag = async (req,res) =>
 {
     try
     {
-        const output =  await BloodBagService.RejectBloodBag(req.params.BloodBagID);
+        const output =  await BloodBagService.RemoveBloodBag(req.params.BloodBagID);
         return res.status(201).send({
             msg: "blood bag removed from system successfully",
+            output
+        });
+    }
+    catch(err)
+    {
+        res.status(500).send({
+            error: err.message
+        });
+    } 
+};
+module.exports.postViewPendingBloodBags = async (req,res) =>
+{
+    try
+    {
+        const output =  await BloodBagService.FindAllPendingBloodBags();
+        return res.status(201).send({
+            msg: "Showing all pending blood bags",
+            output
+        });
+    }
+    catch(err)
+    {
+        res.status(500).send({
+            error: err.message
+        });
+    } 
+};
+module.exports.postViewAcceptedBloodBags = async (req,res) =>
+{
+    try
+    {
+        const output = await BloodBagService.FindAllAcceptedloodBags();
+        return res.status(201).send({
+            msg: "Showing all accepted blood bags",
             output
         });
     }

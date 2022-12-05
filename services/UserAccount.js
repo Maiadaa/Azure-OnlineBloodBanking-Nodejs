@@ -3,6 +3,7 @@ const { ObjectId } = require('mongoose').Types;
 const superAdminModel = require('../models/SuperAdmin');
 const labManagerModel = require('../models/LabManagerSchema');
 const labAdminModel = require('../models/LabAdmin');
+const doctorModel = require('..models/Doctor');
 
 module.exports.generateJWT = (user, userRole) => {
     const jwtPlayLoad = {
@@ -161,7 +162,45 @@ module.exports.labAdminSignUp = async (labAdminInfo) => {
         throw new Error('Failed to add lab admin.');
     }
 };
+/*assem*/
+module.exports.DoctorSignUp = async (DcotorInfo) => {
+    try{
+        // hash the password
+        let hashedPassword = await bcrypt.hash(DcotorInfo.password, 12);
 
+        const Doctor = new doctor({
+            name: DcotorInfo.name,
+            email: DcotorInfo.email,
+            phoneNumber: DcotorInfo.phoneNumber,
+            username: DcotorInfo.username,
+            password: hashedPassword,
+            hospital: new ObjectId(labAdminInfo.hospitalId)
+        });
+        await Doctor.save();
+    }catch (err) {
+        throw new Error('Failed to add Doctor.');
+    }
+};
+
+module.exports.chkDoctorCreds = async(username, password) => {
+    try{
+        // find user that has the same username
+        const user = await doctorModel.findOne({
+            username: username
+        });
+  
+        // compare the plaintext password with the user's hashed password in the db.
+        let isCorrectPassword = bcrypt.compare(password, user.password);
+  
+        if (isCorrectPassword) {
+            return user;
+        } else {
+            return null;
+        }
+    }catch(error){
+        throw new Error('Error logging in, please try again later.');
+    }
+};
 /*hagrass*/
 module.exports.editSuperAdminAccount = async (superAdminInfo) => {
     try{

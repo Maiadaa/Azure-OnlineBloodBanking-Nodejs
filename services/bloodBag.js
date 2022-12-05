@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongoose').Types;
 const BloodBagModel = require('../models/BloodBag');
 
-module.exports.InsertBloodBagRequest = async (bloodBagInfo, bankInventory) => {
+/* module.exports.InsertBloodBagRequest = async (bloodBagInfo, bankInventory) => {
   try {
     bankInventory.PendingBloodBags.push(bloodBagInfo);
     const addedBloodBag = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
@@ -11,7 +11,7 @@ module.exports.InsertBloodBagRequest = async (bloodBagInfo, bankInventory) => {
     console.log(error);
     throw new Error('Could not add Blood Bag into Blood Bag inventory');
   }
-};
+}; */
 module.exports.InsertBloodBag = async (bloodBagInfo) => {
   try {
     const BloodBag = new BloodBagModel(
@@ -45,11 +45,20 @@ module.exports.FindAllPendingBloodBags = async () => {
     return BloodBags;
   }
   catch (err) {
-    throw new Error('Can not find any blood bags in this inventory');
+    throw new Error('Can not find any pending blood bags in this inventory');
+  }
+};
+module.exports.FindAllAcceptedloodBags = async () => {
+  try {
+    const BloodBags = await BloodBagModel.find({ pending: false });
+    return BloodBags;
+  }
+  catch (err) {
+    throw new Error('Can not find any accepted blood bags in this inventory');
   }
 };
 
-module.exports.CreateBloodBag = async (bagInfo) => {
+/* module.exports.CreateBloodBag = async (bagInfo) => {
   try {
     const bagModel = new BloodBagModel(
       {
@@ -61,7 +70,7 @@ module.exports.CreateBloodBag = async (bagInfo) => {
   } catch (err) {
     throw new Error('could not create blood inventory.');
   }
-};
+}; */
 module.exports.AcceptBloodBag = async (BloodBag) => {
   try {
     const test = await BloodBagModel.findByIdAndUpdate(BloodBag._id, BloodBag);
@@ -72,10 +81,11 @@ module.exports.AcceptBloodBag = async (BloodBag) => {
     throw new Error('Could not accept Blood Bag / Can not remove from pending and add to the suitable blood type');
   }
 };
-module.exports.RejectBloodBag = async (BloodBagID) => {
+module.exports.RemoveBloodBag = async (BloodBagID) => {
   try 
   {
-    const removedBloodBag = await BloodBagModel.findByIdAndDelete(BloodBagID);
+    const BloodBag = await BloodBagModel.findById(BloodBagID);
+    const removedBloodBag = await BloodBagModel.findOneAndRemove(BloodBag);
     return removedBloodBag;
   }
   catch (error) {
