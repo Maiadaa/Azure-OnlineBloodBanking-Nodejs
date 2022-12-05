@@ -8,7 +8,7 @@ const BloodBagRouter = Router();
 //BloodBagRouter.put('/AcceptBloodBag/:bloodBagID',bloodBag.postAcceptBloodBag);
 
 BloodBagRouter.post('/InsertBloodBag',bloodBag.postBloodBag);
-BloodBagRouter.delete('/RejectBloodBag/:bloodBagID',bloodBag.postRejectBloodBag);
+BloodBagRouter.delete('/RejectBloodBag/:bloodBagID',bloodBag.postRejectloodBag);
 BloodBagRouter.put('/AcceptBloodBag/:bloodBagID',bloodBag.postAcceptBloodBag);
 //BloodBagRouter.put('/RejectBloodBag/:hospitalID/:bloodBagID',bloodBag.postRejectBloodBag);
 module.exports = BloodBagRouter;

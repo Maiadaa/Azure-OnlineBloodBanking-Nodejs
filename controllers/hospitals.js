@@ -95,14 +95,26 @@ module.exports.delHospital = async(req, res) => {
 };
 
 // Generate report function 
-// Multiple services' functions to collect el report object 
-// Report object is to be sent to el front end components 
 module.exports.generateReport = async (req, res) => {
   try {
-    const hospitals = await hospitalsService.getHospitalReport(req.params.hospitalID);
+    const hospitalReport = await hospitalsService.getHospitalReport(req.params.hospitalID);
     
     return res.status(201).send({ 
-      hospitals,
+      hospitalReport,
+      msg: "Hospital report generated successfully."
+    });
+
+  }  catch (err) {
+    return res.status(500).send({error: err.message});
+  }
+};
+
+module.exports.yearlyReport = async (req, res) => {
+  try {
+    const yearlyReport = await hospitalsService.getYearlyReport();
+    
+    return res.status(201).send({ 
+      yearlyReport,
       msg: "Hospital report generated successfully."
     });
 

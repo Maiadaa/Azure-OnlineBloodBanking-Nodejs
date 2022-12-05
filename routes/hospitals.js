@@ -11,7 +11,9 @@ hospitalsRouter.post('/addHospital', hospitalsController.addHospital);
 hospitalsRouter.get('/', hospitalsController.getHospitals);
 hospitalsRouter.put('/editHospital/:hospitalID', hospitalsController.editHospital);
 hospitalsRouter.delete('/:hospitalID', hospitalsController.delHospital);
-hospitalsRouter.delete('/report/:hospitalID', hospitalsController.generateReport);
+
+hospitalsRouter.get('/report/:hospitalID', hospitalsController.generateReport);
+hospitalsRouter.get('/report', hospitalsController.yearlyReport);
 
 
 // export the router instance 

@@ -1,8 +1,8 @@
 const { ObjectId } = require('mongoose').Types;
 
-const BloodInventoryModel = require('../models/BloodBag');
-const DonationCampsModel = require('../models/DonationCampsSchema');
 const hospitalModel = require('../models/hospital');
+const bloodBagModel = require('../models/BloodBag');
+const DonationCampsModel = require('../models/DonationCampsSchema');
 const donorModel = require('../models/Donor');
 
 module.exports.addHospital = async (hospitalInfo) => {
@@ -59,76 +59,24 @@ module.exports.deleteHospital = async (hospital) => {
 
 module.exports.getHospitalReport = async (hospitalID) => {
   try {
-    // annual report for a specific hospital 
-
-    const hospital = await hospitalModel.findById(hospitalID);
-    const bags = await BloodInventoryModel.find({ hospitalId: hospitalID });
-    const donations = await DonationCampsModel.find({ hospital: hospitalID });
-
-    var AType, BType, ABType, OType = 0; // Num of donations per each blood type 
-    var AFemale, BFemale, ABFemale, OFemale = 0; // num of female donors for each blood type
-    var AMale, BMale, ABMale, OMale = 0; // num of male donors for each blood type
-    var donor;
-
-    for (var i; i < donations.donorReservations.length; i++) {
-      donor = await donorModel.findById(i.donorID._id);
-
-      if (donor.bloodType == "AB") {
-        AType++;
-        if (donor.gender == "M") {
-          AMale++;
-        } else {
-          AFemale++;
-        }
-      } else if (donor.bloodType == "B") {
-        BType++;
-        if (donor.gender == "M") {
-          BMale++;
-        } else {
-          BFemale++;
-        }
-      } else if (donor.bloodType == "A") {
-        AType++;
-        if (donor.gender == "M") {
-          AMale++;
-        } else {
-          AFemale++;
-        }
-      } else if (donor.bloodType == "O") {
-        OType++;
-        if (donor.gender == "M") {
-          OMale++;
-        } else {
-          OFemale++;
-        }
-      }
-    }
-
-    const report = {
-      hospitalName: hospital.name,
-      totalABDonations: ABType,
-      ABFemaleDonors: ABFemale,
-      ABMaleDonors: ABMale,
-      totalBDonations: BType,
-      BFemaleDonors: BFemale,
-      BMaleDonors: BMale,
-      totalADonations: AType,
-      AFemaleDonors: AFemale,
-      AmaleDonors: AMale,
-      totalODonations: OType,
-      OFemaleDonors: OFemale,
-      OMaleDonors: OMale,
-      // Num of blood bags in the inventory per each blood type 
-      totalAB: inventory.ABBloodBags.length,
-      totalB: inventory.BBloodBags.length,
-      totalA: inventory.ABloodBags.length,
-      totalO: inventory.OBloodBags.length
-    }
+    const BloodBagModel = require
+    const report = await hospitalModel.find({_id: hospitalID});
 
     return report;
 
   } catch (err) {
     throw new Error('Could not delete Hospital.');
   }
-}
+};
+
+module.exports.getYearlyReport = async () =>{
+  try {
+    
+    const report = await hospitalModel.remove(hospital);
+    return report;
+
+  } catch (err) {
+    throw new Error('Could not delete Hospital.');
+  }
+};
 
