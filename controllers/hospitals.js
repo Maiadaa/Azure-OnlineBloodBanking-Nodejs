@@ -86,6 +86,7 @@ module.exports.delHospital = async(req, res) => {
     const status = await hospitalsService.deleteHospital(hospital);
     
     return res.status(201).send({
+      status,
       msg: "Hospital was deleted successfully."
     });
 

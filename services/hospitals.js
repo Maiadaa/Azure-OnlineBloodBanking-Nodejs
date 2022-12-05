@@ -1,8 +1,6 @@
 const { ObjectId } = require('mongoose').Types;
 
 const hospitalModel = require('../models/hospital');
-const bloodBagModel = require('../models/BloodBag');
-const DonationCampsModel = require('../models/DonationCampsSchema');
 const donorModel = require('../models/Donor');
 
 module.exports.addHospital = async (hospitalInfo) => {
@@ -59,13 +57,21 @@ module.exports.deleteHospital = async (hospital) => {
 
 module.exports.getHospitalReport = async (hospitalID) => {
   try {
-    const BloodBagModel = require
-    const report = await hospitalModel.find({_id: hospitalID});
+    const BloodBagModel = require('../models/BloodBag');
+    // count number of bags of each blood type: A, B, O, AB
+    const cntABlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "A"});
+    const cntBBlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "B"});
+    const cntABBlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "AB"});
+    const cntOBlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "O"});
 
-    return report;
+    // count number of donations made per gender in donation camps of this hospital
+    const DonationCampsModel = require('../models/DonationCampsSchema');
+    const cntFemaleDonors = await DonationCampsModel.countDocuments({hospital: hospitalID, donorReservations:{donorID:{gender: "Female"}}});
+
+    return cntFemaleDonors;
 
   } catch (err) {
-    throw new Error('Could not delete Hospital.');
+    throw new Error('could not generate hospital report.');
   }
 };
 
