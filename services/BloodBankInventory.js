@@ -140,42 +140,11 @@ module.exports.findBankInventoryById = async (bankInventoryID) => {
     }
 };
   
-module.exports.acceptReqModifyAbags = async (bankInventory) => {
+module.exports.acceptReqModifyAmount = async (inventory) => {
   try{
-    bankInventory.ABloodBags.pop();
-    const inventory = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
+    const inventory = await BloodBagModel.findByIdAndUpdate(inventory._id, inventory);
     return true;
   }catch(arr){
-    throw new Error('can not update A bags');
+    throw new Error('can not update amount');
   }
-};
-
-module.exports.acceptReqModifyBbags = async (bankInventory) => {
-  try{
-    bankInventory.BBloodBags.pop();
-    const inventory = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
-    return true;
-  }catch(arr){
-    throw new Error('can not update B bags');
-  }
-};
-
-module.exports.acceptReqModifyABbags = async (bankInventory) => {
-  try{
-    bankInventory.ABBloodBags.pop();
-    const inventory = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
-    return true;
-  }catch(arr){
-    throw new Error('can not update AB bags');
-  }
-};
-
-module.exports.acceptReqModifyObags = async (bankInventory) => {
-  try{
-    bankInventory.OBloodBags.pop();
-    const inventory = await BloodBagModel.findByIdAndUpdate(bankInventory._id, bankInventory);
-    return true;
-  }catch(arr){
-    throw new Error('can not update O bags');
-  }
-};
+}

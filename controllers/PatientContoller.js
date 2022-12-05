@@ -165,89 +165,40 @@ module.exports.accept_bag_request = async (req, res) => {
     };
     for(var i = 0; i < patient.Request.length; i++){
       if(patient.Request[i] == ReqInfo && patient.Request[i].Status == 'pending'){
-        if(patient.Request[i].BloodType == 'A' || patient.Request[i].BloodType == 'A+' || patient.Request[i].BloodType == 'A-'){
-          if(inventory.ABloodBags.length >= patient.Request[i].Amount){
-            for(var j = 0; j < patient.Request[i].Amount; j++){
-              patient.Request[i].Status = 'Accepted';
-              const returnPatient = await pateitnService.acceptBagRequest(patient);
-              const returnInventory = await bankInventoryService.acceptReqModifyAbags(inventory);
-              if(returnPatient && returnInventory){
-                return res.status(201). send({
-                  msg: 'accepted successfully',
-                  Patient_Id: [patient._id]
-                });
-              }
+        for(var j = 0; j < inventory.BloodBags.length; j++){
+          if(inventory.BloodBags[j].bloodType == patient.Request[i].BloodType && inventory.BloodBags[j].quantity >= patient.Request[i].Amount){
+            inventory.BloodBags[j].quantity -=  patient.Request[i].Amount;
+            patient.Request[i].Status = 'Accepted';
+            const returnPatient = await pateitnService.acceptBagRequest(patient);
+            const returnInventory = await bankInventoryService.acceptReqModifyAmount(inventory);
+            if(returnPatient != null && returnInventory != null){
+              return res.status(201). send({
+                msg: 'accepted successfully',
+                Patient_Id: [patient._id]
+              });
             }
-          }
-        }else if(patient.Request[i].BloodType == 'B' || patient.Request[i].BloodType == 'B+' || patient.Request[i].BloodType == 'B-'){
-          if(inventory.ABloodBags.length >= patient.Request[i].Amount){
-            for(var j = 0; j < patient.Request[i].Amount; j++){
-              patient.Request[i].Status = 'Accepted';
-              const returnPatient = await pateitnService.acceptBagRequest(patient);
-              const returnInventory = await bankInventoryService.acceptReqModifyBbags(inventory);
-              if(returnPatient && returnInventory){
-                return res.status(201). send({
-                  msg: 'accepted successfully',
-                  Patient_Id: [patient._id]
-                });
-              }
-            }
-          }
-        }else if (patient.Request[i].BloodType == 'AB' || patient.Request[i].BloodType == 'AB+' || patient.Request[i].BloodType == 'AB-'){
-          if(inventory.ABloodBags.length >= patient.Request[i].Amount){
-            for(var j = 0; j < patient.Request[i].Amount; j++){
-              patient.Request[i].Status = 'Accepted';
-              const returnPatient = await pateitnService.acceptBagRequest(patient);
-              const returnInventory = await bankInventoryService.acceptReqModifyABbags(inventory);
-              if(returnPatient && returnInventory){
-                return res.status(201). send({
-                  msg: 'accepted successfully',
-                  Patient_Id: [patient._id]
-                });
-              }
-            }
-          }
-        }else if (patient.Request[i].BloodType == 'O' || patient.Request[i].BloodType == 'O+' || patient.Request[i].BloodType == 'O-'){
-          if(inventory.ABloodBags.length >= patient.Request[i].Amount){
-            for(var j = 0; j < patient.Request[i].Amount; j++){
-              patient.Request[i].Status = 'Accepted';
-              const returnPatient = await pateitnService.acceptBagRequest(patient);
-              const returnInventory = await bankInventoryService.acceptReqModifyObags(inventory);
-              if(returnPatient && returnInventory){
-                return res.status(201). send({
-                  msg: 'accepted successfully',
-                  Patient_Id: [patient._id]
-                });
-              }
-            }
-          }
-        }else {
-          patient.Request[i].Status = 'Rejected';
-          const returnPatient = await pateitnService.acceptBagRequest(patient);
-          if(returnPatient){
-            return res.status(201). send({
-              msg: 'Wrong blood type request',
-              Patient_Id: [patient.Status]
-            });
+          }else {
+            continue;
           }
         }
       }else {
-        if(patient.Request[i] == ReqInfo){
-          patient.Request[i].Status = 'Rejected';
-          const returnPatient = await pateitnService.acceptBagRequest(patient);
-          if(returnPatient){
-            return res.status(201). send({
-              msg: 'The request already accepted or rejected',
-              Patient_Id: [patient._id]
-            });
-          }
-        }else {
+        patient.Request[i].Status = 'Rejected';
+        const returnPatient = await pateitnService.acceptBagRequest(patient);
+        if(returnPatient){
           return res.status(201). send({
-            msg: 'Wrong request info',
+            msg: 'the request rejected',
             Patient_Id: [patient._id]
           });
         }
       }
+    }
+    patient.Request[i].Status = 'Rejected';
+    const returnPatient = await pateitnService.acceptBagRequest(patient);
+    if(returnPatient){
+      return res.status(201). send({
+        msg: 'not enough blood bags',
+        Patient_Id: [patient._id]
+      });
     }
   }catch(err){
     res.status(500);
