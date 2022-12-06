@@ -40,9 +40,19 @@ module.exports.addDonorReservation= async (AddDonorReservation) => {
     }
   };
 
-module.exports.deleteDonorReservation = async (DonorReservation) => {
+/* module.exports.deleteDonorReservation = async (DonorReservation) => {
     try{
-      const status = await donationCampModel.remove(DonorReservation);
+      const status = await donationCampModel.deleteOne({_id: DonorReservation});
+      return status;
+    }catch(err){
+      throw new Error('Error deleting Donor reservation, Please try again.');
+    }
+  }; */
+
+  module.exports.removeDonationCamp = async (campID) =>{
+    try{
+      const camp = await donationCampModel.findOne({_id: campID});
+      const status = await donationCampModel.deletOne(campID);
       return status;
     }catch(err){
       throw new Error('Error deleting Donor reservation, Please try again.');

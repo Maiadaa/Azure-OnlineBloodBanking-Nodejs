@@ -2,15 +2,18 @@
 const { Router } = require('express');
 
 // import our productsController
-const donationsController = require('../controllers/donation');
+const donationController = require('../controllers/donation');
 
 // create an instance of Express Router.
 const donationRouter = Router();
-donationRouter.post('/Add-donation-camps',donationController.postdonationCamps);
-donationRouter.get('/Retrieve-donation-camps', donationController.getdonationCamps);
-donationRouter.post('/Add-donor-reservation',donationController.postDonorreservation);
-donationRouter.get('/Retrieve-Donor-reservation',donationController.getDonorReservation);
-donationRouter.get('/Retrieve-Donor-reservation-using-ID',donationController.getDonorReservationByID);
+donationRouter.post('/Add-donation-camps',donationController.postDonationCamp);
+donationRouter.get('/Retrieve-donation-camps', donationController.getDonationcamps);
+donationRouter.delete('/Retrieve-donation-camps/:donationCampID', donationController.deletDonationCamp);
+
+
+donationRouter.post('/Add-donor-reservation',donationController.postDonorReservation);
+donationRouter.get('/Retrieve-Donor-reservation',donationController.getAllDonorReservations);
+donationRouter.delete('/Retrieve-Donor-reservation/:reservationID', donationController.deletDonorReservation);
 
 // export the router instance 
 module.exports = donationRouter;

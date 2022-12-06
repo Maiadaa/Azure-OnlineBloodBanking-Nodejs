@@ -1,0 +1,9 @@
+post http://localhost:3000/donations/Add-donation-camps
+Content-Type: application/json
+
+{
+    "hospital": "638e7c0f8dce3f12d68269dd",
+    "PhoneNumber": "01010101010",
+    "Location": "Nasr City",
+    "Date": "12/6/2022"
+}

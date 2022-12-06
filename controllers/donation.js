@@ -1,5 +1,6 @@
 const {validationResult} = require('express-validator');
 const donationService = require('../services/Donation');
+
 //Passing donation camps
 module.exports.postDonationCamp = async (req, res) => {
     const validationErrors = validationResult(req).array();
@@ -11,13 +12,13 @@ module.exports.postDonationCamp = async (req, res) => {
         hospital: req.body.hospital,
         PhoneNumber: req.body.PhoneNumber,
         Location: req.body.Location,
-        Date: req.body.Date,
+        Date: req.body.Date
       };
       
-        const addedDonorReservation = await donationService.addDonationCamp(donationCampInfo);
+        const addedDonorReservation = await donationService.addDonationCamp(AddingDonationCamp);
         return res.status(201).send({
           msg: 'DonationCamp added successfully.',
-          DonationCamp_ID: createdDonationCamp._id
+          addedDonorReservation
         });
       } catch (err) {
         return res.status(500).send({
@@ -88,3 +89,28 @@ module.exports.getAllDonorReservations = async (req, res) => {
     }
 };
 
+module.exports.deletDonorReservation = async (req, res) => {
+  try{
+    const status = await donationService.deleteDonorReservation(req.params.reservationID);
+    return status;
+
+  }catch(err){
+      res.status(500);
+      res.send({
+          error: err
+      });
+  }
+};
+
+module.exports.deletDonationCamp = async (req, res) => {
+  try{
+    const status = await donationService.removeDonationCamp(req.params.donationCampID);
+    return status;
+      
+  }catch(err){
+      res.status(500);
+      res.send({
+          error: err
+      });
+  }
+};

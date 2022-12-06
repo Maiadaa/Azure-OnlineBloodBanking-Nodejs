@@ -8,6 +8,8 @@ const initiateDBConnection = require('./config/db');
 const patientRouter = require('./routes/PatientRoutes');
 const hospitalsRouter = require('./routes/hospitals');
 const BloodBagRouter = require('./routes/bloodBag');
+const donationCampsRouter = require('./routes/donation');
+
 // Let the dotenv package read and parse environment variables in the ./config/.env file
 dotenv.config({ 
     path: './config/.env' 
@@ -25,6 +27,7 @@ app.use(cors());
 app.use('/patient', patientRouter);
 app.use('/hospitals', hospitalsRouter);
 app.use('/BloodBag', BloodBagRouter);
+app.use('/donations', donationCampsRouter);
 
 app.listen(PORT, async() => {
     console.log(`Server has been started and is listening to port ${PORT}`);
