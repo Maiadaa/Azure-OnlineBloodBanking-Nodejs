@@ -98,6 +98,27 @@ module.exports.manageSuperAdminAccount = async (req, res) => {
   }
 };
 
+module.exports.managePatientAccount = async (req, res) => {
+  try{
+    const patientInfo = {
+      name: req.body.name,
+      email: req.body.email,
+      PhoneNumber: req.body.PhoneNumber,
+      address: req.body.username,
+      condition: req.body.condition,
+      Bloodtype:req.body.Bloodtype,
+      hospitalId: req.body.hospitalId,
+      Request: req.body.Request,
+    };
+    const status = await userAccService.editPatientAccount(patientInfo);
+    return status;
+  }catch (error) {
+    res.status(500).send({
+      error: error.message
+    });
+  }
+};
+
 module.exports.manageLabManagerAccount = async (req, res) => {
   try{
     const labManagerInfo = {

@@ -4,6 +4,7 @@ const superAdminModel = require('../models/SuperAdmin');
 const labManagerModel = require('../models/LabManagerSchema');
 const labAdminModel = require('../models/LabAdmin');
 const doctorModel = require('..models/Doctor');
+const PatientModel=require('../models/Patient');
 
 module.exports.generateJWT = (user, userRole) => {
     const jwtPlayLoad = {
@@ -182,6 +183,18 @@ module.exports.DoctorSignUp = async (DcotorInfo) => {
     }
 };
 
+module.exports.editPatientAccount = async (patientInfo) => {
+    try{
+        const hashedPassword = await bcrypt.hash(patientInfo.password, 31);
+        patientInfo.password = hashedPassword;
+        patientInfo.hospitalId = new ObjectId(patientInfo.hospitalId);
+        const status = PatientModel.findByIdAndUpdate(patientInfo._id, patientInfo);
+        return status;
+    }catch(err){
+        throw new Error('Error editing patient account');
+    }
+};
+
 module.exports.chkDoctorCreds = async(username, password) => {
     try{
         // find user that has the same username
@@ -236,3 +249,4 @@ module.exports.editLabAdminAccount = async (labAdminInfo) => {
         throw new Error('can not edit lab admin account');
     }
 };
+
