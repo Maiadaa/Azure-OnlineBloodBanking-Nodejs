@@ -77,7 +77,7 @@ module.exports.getHospitalReport = async (hospitalID, inventoryReport, donationR
       hospital: hospital.name,
       inventoryReport,
       donationReport
-    })
+    });
     return fullReport;
 
   } catch (err) {

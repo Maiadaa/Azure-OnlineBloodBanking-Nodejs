@@ -100,7 +100,7 @@ module.exports.generateHospitalReport = async (req, res) => {
 
 module.exports.yearlyReport = async (req, res) => {
   try {
-    const yearlyReport = await hospitalService.getYearlyReport();
+    const yearlyReport = await hospitalsService.getYearlyReport();
     
     return res.status(201).send({ 
       yearlyReport,
