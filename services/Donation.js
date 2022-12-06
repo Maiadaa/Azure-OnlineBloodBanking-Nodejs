@@ -65,3 +65,79 @@ module.exports.ViewAllDonorReservations = async () => {
       throw new Error('Error retrieving donor reservations, Please try again.');
     }
   };
+
+  /*** MAIADA ***/
+  module.exports.cntDonationsByHospital = async (hospitalID) => {
+    try{
+      const camp = await donationCampModel.findOne({hospital: hospitalID});
+
+      // num of donations made per gender in donation camps of this hospital
+      var FDonor = 0; var MDonor = 0;
+      // overall percentage of each gender in donation camps of this hospital
+      var FPercentage = 0.0; var MPercentage = 0.0;
+      // num of each gender's donations per blood type in donation camps of this hospital
+      var FAType = 0; var FBType = 0; var FOType = 0; var FABType = 0;
+      var MAType = 0; var MBType = 0; var MOType = 0; var MABType = 0;
+
+      for(var i = 0; i < camp.donorReservations.length; i++){
+        const donor = await donorModel.findById(camp.donorReservations[i].donorID);
+        if(donor.gender == "Female"){
+          FDonor++;
+          if(donor.bloodType == "A"){
+            FAType++;
+          }else if (donor.bloodType == "B"){
+            FBType++;
+          }else if (donor.bloodType == "O"){
+            FOType++;
+          }else {
+            FABType++;
+          }
+        }else{
+          MDonor++;
+          if(donor.bloodType == "A"){
+            MAType++;
+          }else if (donor.bloodType == "B"){
+            MBType++;
+          }else if (donor.bloodType == "O"){
+            MOType++;
+          }else {
+            MABType++;
+          }
+        }
+      }
+      //total donations count 
+      const donationsTotal = FDonor + MDonor;
+      FPercentage = (FDonor/donationsTotal) * 100;
+      MPercentage = (MDonor/donationsTotal) * 100;
+
+      // calculate bags lost due to failing at the test results made on it 
+      // aka: number of rejected blood bags from the donation camp 
+      // donation camp bags count > inventory bags count
+      const bagsLoss = donationsTotal - bagsTotal;
+
+      const donationReport = new Object ({
+        campLocation: camp.Location,
+        campDate: camp.Date,
+
+        donationsCnt: donationsTotal,
+        rejetedBagsCnt: bagsLoss,
+  
+        femaleDonors: FPercentage,
+        maleDonors: MPercentage,
+  
+        ATypeFemales: FAType,
+        BTypeFemales: FBType,
+        OTypeFemales: FOType,
+        ABTypeFemales: FABType,
+  
+        ATypeMales: MAType,
+        BTypeMales: MBType,
+        OTypeMales: MOType,
+        ABTypeMales: MABType
+      });
+
+      return donationReport;
+    }catch (err) {
+      throw new Error('Error retrieving donation report, Please try again.');
+    }
+  };

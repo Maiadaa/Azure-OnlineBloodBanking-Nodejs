@@ -120,3 +120,28 @@ module.exports.FindBloodBags = async (BloodType) => {
       throw new Error('can not font any blood bags');
   }
 };
+
+/*** MAIADA ***/
+module.exports.cntBagsByHospital = async (hospitalID) => {
+  try{
+      // count number of bags of each blood type: A, B, O, AB
+    const cntABlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "A"});
+    const cntBBlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "B"});
+    const cntABBlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "AB"});
+    const cntOBlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "O"});
+    // count total number of bags in inventory 
+    const bagsTotal = cntABlood + cntBBlood + cntOBlood + cntABBlood ;
+
+    const inventorySummary = new Object({
+      inventoryBagsCnt: bagsTotal,
+
+      AType: cntABlood,
+      BType: cntBBlood,
+      OType: cntOBlood,
+      ABType: cntABBlood
+    });
+    return inventorySummary;
+  }catch (err){
+      throw new Error('can not generate hospital inventory sumamry');
+  }
+};

@@ -8,6 +8,7 @@ module.exports.addHospital = async (hospitalInfo) => {
     const hospital = new hospitalModel({
       name: hospitalInfo.name,
       email: hospitalInfo.email,
+      hotline: hospitalInfo.hotline,
       Address: hospitalInfo.Address
     });
 
@@ -37,6 +38,19 @@ module.exports.findHospitalByID = async (hospitalID) => {
   }
 };
 
+module.exports.findHospitalByName = async (givenName) => {
+  try {
+    const hospital = await hospitalModel.find({name: givenName});
+    if(hospital.length > 0){
+      return true;
+    }else{
+      return false;
+    }
+  } catch (err) {
+    throw new Error('Could not find hospital.');
+  }
+};
+
 module.exports.editHospitalInfo = async (hospital, hospitalNewInfo) => {
   try {
     const status = await hospitalModel.findByIdAndUpdate(hospital._id, hospitalNewInfo);
@@ -55,20 +69,16 @@ module.exports.deleteHospital = async (hospital) => {
   }
 };
 
-module.exports.getHospitalReport = async (hospitalID) => {
+
+module.exports.getHospitalReport = async (hospitalID, inventoryReport, donationReport) => {
   try {
-    const BloodBagModel = require('../models/BloodBag');
-    // count number of bags of each blood type: A, B, O, AB
-    const cntABlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "A"});
-    const cntBBlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "B"});
-    const cntABBlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "AB"});
-    const cntOBlood = await BloodBagModel.countDocuments({hospital: hospitalID, bloodType: "O"});
-
-    // count number of donations made per gender in donation camps of this hospital
-    const DonationCampsModel = require('../models/DonationCampsSchema');
-    const cntFemaleDonors = await DonationCampsModel.countDocuments({hospital: hospitalID, donorReservations:{donorID:{gender: "Female"}}});
-
-    return cntFemaleDonors;
+    const hospital = await hospitalModel.findOne({_id: hospitalID});
+    const fullReport = new Object({
+      hospital: hospital.name,
+      inventoryReport,
+      donationReport
+    })
+    return fullReport;
 
   } catch (err) {
     throw new Error('could not generate hospital report.');
@@ -77,12 +87,14 @@ module.exports.getHospitalReport = async (hospitalID) => {
 
 module.exports.getYearlyReport = async () =>{
   try {
-    
-    const report = await hospitalModel.remove(hospital);
-    return report;
+    var fullReport = [];
+    const hospitals = this.findAllHospitals();
+    for (var i = 0; i < hospitals.length ; i++){
+      fullReport.push(this.getHospitalReport(hospitals[i]._id));
+    }
+    return fullReport;
 
   } catch (err) {
-    throw new Error('Could not delete Hospital.');
+    throw new Error('Could not generate yearly report.');
   }
 };
-

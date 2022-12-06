@@ -1,50 +1,33 @@
 const { isObjectIdOrHexString } = require('mongoose');
 const hospitalsService = require('../services/hospitals');
 
+const bloodBagService = require('../services/bloodBag');
+const donationCampService = require('../services/Donation');
+
 // add hospital function
 module.exports.addHospital = async (req, res) => {
   try {
     //check if hospital name needed to be added is not already in the system
+    const test = await hospitalsService.findHospitalByName(req.body.name);
 
-    // using inventory service for the add inventory function 
-    const initialInventory = {
-      PendingBloodBags: [],
-      OBloodBags: [],
-      ABloodBags: [],
-      BBloodBags: [],
-      ABBloodBags: []
+    if(!test){
+      const hospitalInfo = {
+        name: req.body.name,
+        email: req.body.email,
+        hotline: req.body.hotline,
+        Address: req.body.Address
+      };
+      const status = await hospitalsService.addHospital(hospitalInfo);
+
+      return res.status(201).send({
+        status,
+        msg: "Hospital was added successfully."
+      });
+    }else{
+      return res.status(500).send({
+        msg: "Hospital already exists."
+      });
     }
-    const inventoryService = require('../services/BloodBankInventory');
-    const inventoryStatus = await inventoryService.CreateBloodInventory({initialInventory});
-
-    const hospitalinfo = {
-      name: req.body.name,
-      email: req.body.email,
-      Address: req.body.Address,
-      inventoryID: new ObjectId(inventoryStatus._id) // reference the above-created inventory instance 
-    };
-    const hospitalStatus = await hospitalsService.addHospital(hospitalinfo);
-
-    // create an account for the lab manager to manage his hospital
-    const accountInfo = {
-      username: req.body.name, // hospital's account will be name of the hospital 
-      password: inventoryStatus._id, // assign any password to the account
-      hospitalName: req.body.hospitalName,
-      role: "Lab Manager"
-    };
-    const accountsService = require('../services/UserAccount'); 
-    const accStatus = await accountsService.addAccount(accountInfo);
-    // using nodemailer service notify the hospital of their account's on-time login credentials on our system 
-    //
-    //
-
-    return res.status(201).send({
-      hospitalStatus,
-      inventoryStatus,
-      accStatus, 
-      msg: "Hospital, its labManager and blood inventory, were created successfully."
-    });
-
   }  catch (err) {
     return res.status(500).send({error: err.message});
   }
@@ -96,12 +79,17 @@ module.exports.delHospital = async(req, res) => {
 };
 
 // Generate report function 
-module.exports.generateReport = async (req, res) => {
+module.exports.generateHospitalReport = async (req, res) => {
   try {
-    const hospitalReport = await hospitalsService.getHospitalReport(req.params.hospitalID);
-    
+    const hospitalID = req.params.hospitalID;
+
+    const inventoryReport = await bloodBagService.cntBagsByHospital(hospitalID);
+    const donationCampReport = await donationCampService.cntDonationsByHospital(hospitalID);
+
+    const test = await hospitalsService.getHospitalReport(hospitalID, inventoryReport, donationCampReport);
+
     return res.status(201).send({ 
-      hospitalReport,
+      test,
       msg: "Hospital report generated successfully."
     });
 
@@ -112,7 +100,7 @@ module.exports.generateReport = async (req, res) => {
 
 module.exports.yearlyReport = async (req, res) => {
   try {
-    const yearlyReport = await hospitalsService.getYearlyReport();
+    const yearlyReport = await hospitalService.getYearlyReport();
     
     return res.status(201).send({ 
       yearlyReport,

@@ -12,7 +12,7 @@ hospitalsRouter.get('/', hospitalsController.getHospitals);
 hospitalsRouter.put('/editHospital/:hospitalID', hospitalsController.editHospital);
 hospitalsRouter.delete('/:hospitalID', hospitalsController.delHospital);
 
-hospitalsRouter.get('/report/:hospitalID', hospitalsController.generateReport);
+hospitalsRouter.get('/report/:hospitalID', hospitalsController.generateHospitalReport);
 hospitalsRouter.get('/report', hospitalsController.yearlyReport);
 
 
