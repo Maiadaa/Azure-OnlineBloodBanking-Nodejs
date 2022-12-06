@@ -1,7 +1,6 @@
 const { ObjectId } = require('mongoose').Types;
 
 const hospitalModel = require('../models/hospital');
-const donorModel = require('../models/Donor');
 
 module.exports.addHospital = async (hospitalInfo) => {
   try {

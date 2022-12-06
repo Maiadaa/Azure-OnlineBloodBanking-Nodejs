@@ -1,4 +1,5 @@
 const donationCampModel=require('../models/DonationCampsSchema');
+const donorModel = require('../models/Donor');
 
 module.exports.addDonationCamp= async (donationCampInfo) => {
     try {
@@ -6,7 +7,7 @@ module.exports.addDonationCamp= async (donationCampInfo) => {
         hospital: donationCampInfo.hospital,
         PhoneNumber: donationCampInfo.PhoneNumber,
         Location: donationCampInfo.Location,
-        Date: donationCampInfo.Date,
+        Date: donationCampInfo.Date
       });
       const status = await donationCamp.save();
       return status;
@@ -26,10 +27,10 @@ module.exports.ViewDonationCamps = async () => {
 
 module.exports.addDonorReservation= async (AddDonorReservation) => {
     try {
-      const DonorReservation = new DonorReservationModel({
+      const DonorReservation = new donationCampModel({
         donorID: AddDonorReservation.donorID,
         timeSlot: AddDonorReservation.timeSlot,
-        bloodBagsQty: AddDonorReservation.bloodBagsQty,
+        bloodBagsQty: AddDonorReservation.bloodBagsQty
       });
       const status = await DonorReservation.save();
       return status;
@@ -41,7 +42,7 @@ module.exports.addDonorReservation= async (AddDonorReservation) => {
 
 module.exports.deleteDonorReservation = async (DonorReservation) => {
     try{
-      const status = await DonorReservationModel.remove(DonorReservation);
+      const status = await donationCampModel.remove(DonorReservation);
       return status;
     }catch(err){
       throw new Error('Error deleting Donor reservation, Please try again.');
@@ -50,7 +51,7 @@ module.exports.deleteDonorReservation = async (DonorReservation) => {
 
 module.exports.ViewDonorReservationsByID = async (donorID) => {
     try {
-      const donorReservationID = await DonorReservationModel.find(donorID);
+      const donorReservationID = await donationCampModel.find(donorID);
       return donorReservationID;
     } catch (err) {
       throw new Error('Error finding Donor reservation, Please try again.');
@@ -59,7 +60,7 @@ module.exports.ViewDonorReservationsByID = async (donorID) => {
 
 module.exports.ViewAllDonorReservations = async () => {
     try {
-      const AllDonorReservations = await DonorReservationModel.find();
+      const AllDonorReservations = await donationCampModel.find();
       return AllDonorReservations;
     } catch (err) {
       throw new Error('Error retrieving donor reservations, Please try again.');

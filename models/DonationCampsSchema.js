@@ -25,6 +25,7 @@ const DonationCampsSchema = new Schema({
     donorReservations:[{
         donorID: {
             type: Schema.Types.ObjectId,
+            ref: 'Donor',
             required: true
         },
         timeSlot: {

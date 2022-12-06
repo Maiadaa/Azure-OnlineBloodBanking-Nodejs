@@ -28,6 +28,7 @@ const LabManagerSchema = new Schema({
     },
     hospitalId:{
         type: Schema.Types.ObjectId,
+        ref: 'hospital',
         required: true
     }
 });
