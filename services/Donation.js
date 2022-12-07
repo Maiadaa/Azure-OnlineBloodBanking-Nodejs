@@ -121,17 +121,11 @@ module.exports.ViewAllDonorReservations = async () => {
       FPercentage = (FDonor/donationsTotal) * 100;
       MPercentage = (MDonor/donationsTotal) * 100;
 
-      // calculate bags lost due to failing at the test results made on it 
-      // aka: number of rejected blood bags from the donation camp 
-      // donation camp bags count > inventory bags count
-      const bagsLoss = donationsTotal - bagsTotal;
-
       const donationReport = new Object ({
         campLocation: camp.Location,
         campDate: camp.Date,
 
         donationsCnt: donationsTotal,
-        rejetedBagsCnt: bagsLoss,
   
         femaleDonors: FPercentage,
         maleDonors: MPercentage,

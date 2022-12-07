@@ -73,10 +73,17 @@ module.exports.deleteHospital = async (hospital) => {
 module.exports.getHospitalReport = async (hospitalID, inventoryReport, donationReport) => {
   try {
     const hospital = await hospitalModel.findOne({_id: hospitalID});
+    
+    // calculate bags lost due to failing at the test results made on it 
+    // aka: number of rejected blood bags from the donation camp 
+    // donation camp bags count > inventory bags count
+    const bagsLoss = donationReport.donationsCnt - inventoryReport.inventoryBagsCnt;
+
     const fullReport = new Object({
       hospital: hospital.name,
       inventoryReport,
-      donationReport
+      donationReport,
+      rejetedBagsCnt: bagsLoss
     });
     return fullReport;
 

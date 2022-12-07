@@ -3,7 +3,7 @@ const hospitalsService = require('../services/hospitals');
 
 const usersAccountService = require('../services/UserAccount');
 const bloodBagService = require('../services/bloodBag');
-const donationCampService = require('../services/Donation');
+const donationService = require('../services/Donation');
 
 // add hospital function
 module.exports.addHospital = async (req, res) => {
@@ -94,9 +94,9 @@ module.exports.generateHospitalReport = async (req, res) => {
     const hospitalID = req.params.hospitalID;
 
     const inventoryReport = await bloodBagService.cntBagsByHospital(hospitalID);
-    const donationCampReport = await donationCampService.cntDonationsByHospital(hospitalID);
+    const donationReport = await donationService.cntDonationsByHospital(hospitalID);
 
-    const test = await hospitalsService.getHospitalReport(hospitalID, inventoryReport, donationCampReport);
+    const test = await hospitalsService.getHospitalReport(hospitalID, inventoryReport, donationReport);
 
     return res.status(201).send({ 
       test,
