@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
-const { ObjectId } = require('mongoose').Types;
 const superAdminModel = require('../models/SuperAdmin');
 const labManagerModel = require('../models/LabManagerSchema');
 const labAdminModel = require('../models/LabAdmin');
 const doctorModel = require('../models/Doctor');
 const PatientModel=require('../models/Patient');
+const { ObjectId } = require('mongoose').Types;
 
 module.exports.generateJWT = (user, userRole) => {
     const jwtPlayLoad = {
@@ -132,15 +132,12 @@ module.exports.superAdminSignup= async (superAdminInfo) => {
 module.exports.labManagerSignUp= async (labManagerInfo) => {
     try{
         // hash the password
-        let hashedPassword = await bcrypt.hash(labManagerInfo.password, 12); 
+        //let hashedPassword = await bcrypt.hash(, 12); 
 
         const labManager = new labManagerModel({
-            phoneNumber: "",
-            email: "",
-            name: "",
             username: labManagerInfo.username,
-            password: hashedPassword,
-            hospital: new ObjectId(labManagerInfo.hospitalId)
+            password: labManagerInfo.password,
+            hospitalId: new ObjectId(labManagerInfo.hospitalId)
         });
         const status = await labManager.save();
         return status;

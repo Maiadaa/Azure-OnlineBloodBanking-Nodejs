@@ -13,7 +13,7 @@ module.exports.addHospital = async (hospitalInfo) => {
     });
 
     const status = await hospital.save();
-    return hospitalInfo;
+    return status;
 
   } catch (err) {
     throw new Error('Could not add hospital.');

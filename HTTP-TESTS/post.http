@@ -2,12 +2,11 @@ post http://localhost:3000/patient
 Content-Type: application/json
 
 {
-"name": "testObjectID",
+"name": "hagrass test front end",
 "email": "hagrass@bue.com",
 "PhoneNumber": "01013700990",
-"Address": "ffff",
-"Condition": "dasd",
-"BloodType": "B+",
-"hospitalId": "6388db94f9a15563b956ec09",
-"Request": []
+"Address": "cairo",
+"Condition": "nnn",
+"BloodType": "A+",
+"hospitalId": "6388db94f9a15563b956ec09"
 }
