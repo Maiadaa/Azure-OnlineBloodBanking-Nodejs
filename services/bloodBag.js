@@ -40,7 +40,8 @@ module.exports.InsertBloodBag = async (bloodBagInfo) => {
 };
 
 module.exports.FindAllPendingBloodBags = async () => {
-  try {
+  try
+  {
     const BloodBags = await BloodBagModel.find({ pending: true });
     return BloodBags;
   }
@@ -48,6 +49,7 @@ module.exports.FindAllPendingBloodBags = async () => {
     throw new Error('Can not find any pending blood bags in this inventory');
   }
 };
+
 module.exports.FindAllAcceptedloodBags = async () => {
   try {
     const BloodBags = await BloodBagModel.find({ pending: false });

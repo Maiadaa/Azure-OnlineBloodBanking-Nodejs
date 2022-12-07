@@ -12,5 +12,7 @@ BloodBagRouter.delete('/RemoveBloodBag/:bloodBagID',bloodBag.postRemoveBloodBag)
 BloodBagRouter.put('/AcceptBloodBag/:bloodBagID',bloodBag.postAcceptBloodBag);
 BloodBagRouter.get('/ViewPendingBloodBags',bloodBag.postViewPendingBloodBags);
 BloodBagRouter.get('/ViewAcceptedBloodBags',bloodBag.postViewAcceptedBloodBags);
+
+
 //BloodBagRouter.put('/RejectBloodBag/:hospitalID/:bloodBagID',bloodBag.postRejectBloodBag);
 module.exports = BloodBagRouter;
