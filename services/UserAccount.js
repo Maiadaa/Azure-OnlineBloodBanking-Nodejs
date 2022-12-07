@@ -132,11 +132,11 @@ module.exports.superAdminSignup= async (superAdminInfo) => {
 module.exports.labManagerSignUp= async (labManagerInfo) => {
     try{
         // hash the password
-        //let hashedPassword = await bcrypt.hash(, 12); 
+        let hashedPassword = await bcrypt.hash(labManagerInfo.password, 12); 
 
         const labManager = new labManagerModel({
             username: labManagerInfo.username,
-            password: labManagerInfo.password,
+            password: hashedPassword,
             hospitalId: new ObjectId(labManagerInfo.hospitalId)
         });
         const status = await labManager.save();

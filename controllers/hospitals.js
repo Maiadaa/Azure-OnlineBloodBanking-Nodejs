@@ -23,7 +23,7 @@ module.exports.addHospital = async (req, res) => {
 
       const managerInfo = {
         username: status.name,
-        password: status._id,
+        password: status.name,
         hospitalId: status._id
       };
       const labManager = await usersAccountService.labManagerSignUp(managerInfo);
