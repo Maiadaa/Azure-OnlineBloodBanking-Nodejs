@@ -1,6 +1,7 @@
 const { isObjectIdOrHexString } = require('mongoose');
 const hospitalsService = require('../services/hospitals');
 
+const usersAccountService = require('../services/UserAccount');
 const bloodBagService = require('../services/bloodBag');
 const donationCampService = require('../services/Donation');
 
@@ -20,8 +21,16 @@ module.exports.addHospital = async (req, res) => {
       };
       const status = await hospitalsService.addHospital(hospitalInfo);
 
+      const managerInfo = {
+        username: status.name,
+        password: status._id,
+        hospitalId: status._id
+      };
+      const labManager = await usersAccountService.labManagerSignUp(managerInfo);
+
       return res.status(201).send({
         status,
+        labManager,
         msg: "Hospital was added successfully."
       });
     }else{
@@ -51,7 +60,7 @@ module.exports.editHospital = async (req, res) => {
     const hospitalNewInfo = {
       name: req.body.name,
       email: req.body.email,
-      PhoneNumber: req.body.PhoneNumber,
+      hotline: req.body.hotline,
       Address: req.body.Address
     };
     const status = await hospitalsService.editHospitalInfo(hospital, hospitalNewInfo);

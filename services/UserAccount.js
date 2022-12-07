@@ -3,7 +3,7 @@ const { ObjectId } = require('mongoose').Types;
 const superAdminModel = require('../models/SuperAdmin');
 const labManagerModel = require('../models/LabManagerSchema');
 const labAdminModel = require('../models/LabAdmin');
-const doctorModel = require('..models/Doctor');
+const doctorModel = require('../models/Doctor');
 const PatientModel=require('../models/Patient');
 
 module.exports.generateJWT = (user, userRole) => {
@@ -132,14 +132,18 @@ module.exports.superAdminSignup= async (superAdminInfo) => {
 module.exports.labManagerSignUp= async (labManagerInfo) => {
     try{
         // hash the password
-        let hashedPassword = await bcrypt.hash(superAdminInfo.password, 12); 
+        let hashedPassword = await bcrypt.hash(labManagerInfo.password, 12); 
 
         const labManager = new labManagerModel({
+            phoneNumber: "",
+            email: "",
+            name: "",
             username: labManagerInfo.username,
             password: hashedPassword,
             hospital: new ObjectId(labManagerInfo.hospitalId)
         });
-        await labManager.save();
+        const status = await labManager.save();
+        return status;
     }catch (err) {
         throw new Error('Failed to add lab manager.');
     }
@@ -148,7 +152,7 @@ module.exports.labManagerSignUp= async (labManagerInfo) => {
 module.exports.labAdminSignUp = async (labAdminInfo) => {
     try{
         // hash the password
-        let hashedPassword = await bcrypt.hash(superAdminInfo.password, 12);
+        let hashedPassword = await bcrypt.hash(labAdminInfo.password, 12);
 
         const labAdmin = new labAdminModel({
             name: labAdminInfo.name,
@@ -156,7 +160,7 @@ module.exports.labAdminSignUp = async (labAdminInfo) => {
             phoneNumber: labAdminInfo.phoneNumber,
             username: labAdminInfo.username,
             password: hashedPassword,
-            hospital: new ObjectId(labAdminInfo.hospitalId)
+            hospital: labAdminInfo.hospitalId
         });
         await labAdmin.save();
     }catch (err) {
