@@ -39,6 +39,21 @@ module.exports.getDonationcamps = async (req, res) => {
         });
     }
 };
+
+module.exports.delDonationCamps = async(req, res) => {
+  try{
+    const donationCamp = await donationService.findDonationCampByID(req.params.donationCampID);
+    const status = await donationService.removeDonationCamp(donationCamp);
+    
+    return res.status(201).send({
+      status,
+      msg: "Donation Camp was deleted successfully."
+    });
+
+  } catch (err) {
+    return res.status(500).send({error: err.message});
+  }
+};
 //Pass donor reservation
 module.exports.postDonorReservation = async (req, res) => {
     const validationErrors = validationResult(req).array();
@@ -94,19 +109,6 @@ module.exports.deletDonorReservation = async (req, res) => {
     const status = await donationService.deleteDonorReservation(req.params.reservationID);
     return status;
 
-  }catch(err){
-      res.status(500);
-      res.send({
-          error: err
-      });
-  }
-};
-
-module.exports.deletDonationCamp = async (req, res) => {
-  try{
-    const status = await donationService.removeDonationCamp(req.params.donationCampID);
-    return status;
-      
   }catch(err){
       res.status(500);
       res.send({

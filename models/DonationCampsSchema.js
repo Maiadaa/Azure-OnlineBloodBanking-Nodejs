@@ -1,7 +1,7 @@
 const {Schema, model} = require('mongoose');
 
 const DonationCampsSchema = new Schema({
-    hospital: 
+    hospital:
     {
         type: Schema.Types.ObjectId,
         ref: 'hospital',
