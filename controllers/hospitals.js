@@ -15,7 +15,8 @@ module.exports.addHospital = async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         hotline: req.body.hotline,
-        Address: req.body.Address
+        Address: req.body.Address,
+        imageURL: req.body.imageURL
       };
       const status = await hospitalsService.addHospital(hospitalInfo);
 

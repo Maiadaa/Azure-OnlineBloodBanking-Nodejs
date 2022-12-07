@@ -8,7 +8,8 @@ module.exports.addHospital = async (hospitalInfo) => {
       name: hospitalInfo.name,
       email: hospitalInfo.email,
       hotline: hospitalInfo.hotline,
-      Address: hospitalInfo.Address
+      Address: hospitalInfo.Address,
+      imageURL: hospitalInfo.imageURL
     });
 
     const status = await hospital.save();

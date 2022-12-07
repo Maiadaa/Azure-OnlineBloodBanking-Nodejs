@@ -20,6 +20,10 @@ const hospital = new Schema({
     {
         type: 'String',
         required: true
+    },
+    imageURL:{
+        type: 'String',
+        required: false
     }
 });
 

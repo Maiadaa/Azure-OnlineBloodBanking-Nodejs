@@ -1,10 +1,10 @@
-// Note: to run our app.js file, we can simply write in the terminal: npm run dev
-
 // Imports 
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+
 const initiateDBConnection = require('./config/db');
+
 const patientRouter = require('./routes/PatientRoutes');
 const hospitalsRouter = require('./routes/hospitals');
 const BloodBagRouter = require('./routes/bloodBag');
