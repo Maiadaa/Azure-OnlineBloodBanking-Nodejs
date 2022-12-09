@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongoose').Types;
 
 const hospitalModel = require('../models/hospital');
+const hospitalController = require('../controllers/hospitals');
 
 module.exports.addHospital = async (hospitalInfo) => {
   try {
@@ -80,7 +81,8 @@ module.exports.getHospitalReport = async (hospitalID, inventoryReport, donationR
     const bagsLoss = donationReport.donationsCnt - inventoryReport.inventoryBagsCnt;
 
     const fullReport = new Object({
-      hospital: hospital.name,
+      _id: hospitalID,
+      hospital: hospital,
       inventoryReport,
       donationReport,
       rejetedBagsCnt: bagsLoss
@@ -97,7 +99,7 @@ module.exports.getYearlyReport = async () =>{
     var fullReport = [];
     const hospitals = this.findAllHospitals();
     for (var i = 0; i < hospitals.length ; i++){
-      fullReport.push(this.getHospitalReport(hospitals[i]._id));
+      fullReport.push(hospitalController.generateHospitalReport(hospitals[i]._id));
     }
     return fullReport;
 
