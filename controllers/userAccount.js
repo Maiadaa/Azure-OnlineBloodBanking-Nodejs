@@ -43,7 +43,7 @@ module.exports.postUser = async (req, res) => {
 module.exports.postLogin = async (req, res) => {
   const { role, username, password } = req.body;
   try {
-    var acc; 
+    var acc = null; 
     if(role == "Super Admin"){
       acc = await userAccService.chkSuperAdminCreds(username, password);
     }else if (role == "Lab Manager"){
@@ -52,11 +52,13 @@ module.exports.postLogin = async (req, res) => {
       acc = await userAccService.chkLabAdminCreds(username, password);
     }else if (role == "Doctor"){
       // acc = await userAccService.chkDoctorCreds(username, password);
+      acc = null;
     }else if (role == "Donor"){
       // acc = await userAccService.chkDonorCreds(username ,password);
+      acc = null;
     }
 
-    if (!acc) {
+    if (acc == null) {
       return res.status(401).send({
         error:
           'Invalid credentials, please enter the correct username and password.'
@@ -75,7 +77,7 @@ module.exports.postLogin = async (req, res) => {
 
   } catch (err) {
     res.status(500).send({
-      error: error.message
+      error: err.message
     });
   }
 };
