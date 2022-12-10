@@ -85,6 +85,7 @@ module.exports.postLogin = async (req, res) => {
 
 module.exports.manageSuperAdminAccount = async (req, res) => {
   try{
+    const id = req.params.superId;
     const superAdminInfo = {
       name: req.body.name,
       email: req.body.email,
@@ -92,7 +93,7 @@ module.exports.manageSuperAdminAccount = async (req, res) => {
       username: req.body.username,
       password: req.body.password
     };
-    const status = await userAccService.editSuperAdminAccount(superAdminInfo);
+    const status = await userAccService.editSuperAdminAccount(id, superAdminInfo);
     return status;
   }catch (error) {
     res.status(500).send({
@@ -124,15 +125,16 @@ module.exports.managePatientAccount = async (req, res) => {
 
 module.exports.manageLabManagerAccount = async (req, res) => {
   try{
+    const id = req.params.labmanagerId;
     const labManagerInfo = {
       name: req.body.name,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       username: req.body.username,
       password: req.body.password,
-      hospital: req.body.hospital,
+      hospitalId: req.body.hospital,
     };
-    const status = await userAccService.ediLabManagerAccount(labManagerInfo);
+    const status = await userAccService.ediLabManagerAccount(id, labManagerInfo);
     return status;
   }catch (error) {
     res.status(500).send({
@@ -141,17 +143,18 @@ module.exports.manageLabManagerAccount = async (req, res) => {
   }
 };
 
-module.exports.manageSuperAdminAccount = async (req, res) => {
+module.exports.manageLabAdmin = async (req, res) => {
   try{
+    const id = req.params.labAdminId;
     const labAdminInfo = {
       name: req.body.name,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       username: req.body.username,
       password: req.body.password,
-      hospital: req.body.hospital,
+      hospitalId: req.body.hospital,
     };
-    const status = await userAccService.editLabAdminAccount(labAdminInfo);
+    const status = await userAccService.editLabAdminAccount(id, labAdminInfo);
     return status;
   }catch (error) {
     res.status(500).send({

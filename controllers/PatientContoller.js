@@ -18,8 +18,8 @@ module.exports.getPatientByID = async (req, res) => {
   
   try{
       const patientID = req.params.patientID;
-      const pateitns = await pateitnService.findPatientById(patientID);
-      res.send({pateitns});
+      const pateitn = await pateitnService.findPatientById(patientID);
+      res.send({pateitn});
   }catch(err){
       res.status(500);
       res.send({
@@ -95,13 +95,17 @@ module.exports.viewBagrequest = async (req, res) => {
   try{
       const patientID = req.params.patientID;
       const patient = await pateitnService.viewBagRequest(patientID);
-      var viewRequest;
+      var viewRequest = null;
       for(let request of patient.Request){
         if(request.Status == 'pending'){
           viewRequest = request;
         }
       } 
-      res.send({viewRequest});
+      if(viewRequest != null){
+        res.send({viewRequest});
+      }else{
+        res.send({msg: "empty"});
+      }
   }catch(err){
       res.status(500);
       res.send({
