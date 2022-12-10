@@ -5,8 +5,8 @@ const labAdminModel = require('../models/LabAdmin');
 const doctorModel = require('../models/Doctor');
 const PatientModel=require('../models/Patient');
 const { ObjectId } = require('mongoose').Types;
-
-module.exports.generateJWT = (user, userRole) => {
+const JWT = require('jsonwebtoken');
+/*module.exports.generateJWT = (user, userRole) => {
     const jwtPlayLoad = {
         userId: user._id,
         username: user.username,
@@ -20,7 +20,24 @@ module.exports.generateJWT = (user, userRole) => {
     }catch(error){
         throw new Error('Failure to sign in, please try again later.');
     }
-};
+};*/
+module.exports.generateJWT = (user, role) => {
+    try {
+        const jwtPayload = {
+            userId: user._id,
+            username: user.username,
+            role: role
+        };
+
+        const jwtSecret = process.env.JWT_SECRET;
+
+
+        let token = JWT.sign(jwtPayload, jwtSecret, { expiresIn: '1h' });
+        return token;
+    } catch (error) {
+        throw new Error('Failure to sign in, please try again later.');
+    }
+  };
 
 module.exports.chkSuperAdminCreds = async(username, password) => {
     try{

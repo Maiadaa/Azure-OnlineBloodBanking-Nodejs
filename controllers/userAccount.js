@@ -72,6 +72,7 @@ module.exports.postLogin = async (req, res) => {
       username: acc.username,
       jwt: jwt,
       role: role,
+      hospitalId: acc.hospitalId,
       message: 'Logged in successfully.'
     });
 
