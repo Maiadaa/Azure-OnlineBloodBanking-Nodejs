@@ -108,3 +108,57 @@ module.exports.postViewAcceptedBloodBags = async (req,res) =>
         });
     } 
 };
+module.exports.postViewAcceptedBloodBagsInHospital = async (req,res) =>
+{
+    try
+    {
+        const ID = req.params.hospitalID;
+        const output = await BloodBagService.FindAllAcceptedloodBags(ID);
+        return res.status(201).send({
+            msg: "Showing all accepted blood bags",
+            output
+        });
+    }
+    catch(err)
+    {
+        res.status(500).send({
+            error: err.message
+        });
+    } 
+};
+
+module.exports.postViewPendingBloodBags = async (req,res) =>
+{
+    try
+    {
+        const output =  await BloodBagService.FindAllPendingBloodBags();
+        return res.status(201).send({
+            msg: "Showing all pending blood bags",
+            output
+        });
+    }
+    catch(err)
+    {
+        res.status(500).send({
+            error: err.message
+        });
+    } 
+};
+module.exports.postViewPendingBloodBagsInHospital = async (req,res) =>
+{
+    try
+    {
+        const ID = req.params.hospitalID;
+        const output = await BloodBagService.FindAllPendingBloodBagsInHospital(ID);
+        return res.status(201).send({
+            msg: "Showing all accepted blood bags in your hospital",
+            output
+        });
+    }
+    catch(err)
+    {
+        res.status(500).send({
+            error: err.message
+        });
+    } 
+};

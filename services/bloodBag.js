@@ -49,10 +49,29 @@ module.exports.FindAllPendingBloodBags = async () => {
     throw new Error('Can not find any pending blood bags in this inventory');
   }
 };
+module.exports.FindAllPendingBloodBagsInHospital = async (hospitalID) => {
+  try
+  {
+    const BloodBags = await BloodBagModel.find({ pending: true , hospital: hospitalID});
+    return BloodBags;
+  }
+  catch (err) {
+    throw new Error('Can not find any pending blood bags in this inventory');
+  }
+};
 
 module.exports.FindAllAcceptedloodBags = async () => {
   try {
     const BloodBags = await BloodBagModel.find({ pending: false });
+    return BloodBags;
+  }
+  catch (err) {
+    throw new Error('Can not find any accepted blood bags in this inventory');
+  }
+};
+module.exports.FindAllAcceptedloodBagsInHospital = async (hospitalID) => {
+  try {
+    const BloodBags = await BloodBagModel.find({ pending: false, hospital: hospitalID});
     return BloodBags;
   }
   catch (err) {
