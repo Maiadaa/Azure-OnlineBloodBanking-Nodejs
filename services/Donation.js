@@ -16,12 +16,31 @@ module.exports.addDonationCamp= async (donationCampInfo) => {
     }
   };
 
+module.exports.findDonationCampByID = async (donationCampID) => {
+    try {
+      const donationCampID = await donationCampModel.find(donationCampID);
+      return donorReservationID;
+    } catch (err) {
+      throw new Error('Error finding Donation Camp, Please try again.');
+    }
+  };
+
 module.exports.ViewDonationCamps = async () => {
     try {
       const donationCamp = await donationCampModel.find();
       return donationCamp;
     } catch (err) {
       throw new Error('Error finding donation camp, Please try again.');
+    }
+  };
+
+  module.exports.removeDonationCamp = async (campID) =>{
+    try{
+      const camp = await donationCampModel.findOne({_id: campID});
+      const status = await donationCampModel.deletOne(campID);
+      return status;
+    }catch(err){
+      throw new Error('Error deleting Donor reservation, Please try again.');
     }
   };
 
@@ -40,19 +59,9 @@ module.exports.addDonorReservation= async (AddDonorReservation) => {
     }
   };
 
-/* module.exports.deleteDonorReservation = async (DonorReservation) => {
+  module.exports.deleteDonorReservation = async (DonorReservation) => {
     try{
-      const status = await donationCampModel.deleteOne({_id: DonorReservation});
-      return status;
-    }catch(err){
-      throw new Error('Error deleting Donor reservation, Please try again.');
-    }
-  }; */
-
-  module.exports.removeDonationCamp = async (campID) =>{
-    try{
-      const camp = await donationCampModel.findOne({_id: campID});
-      const status = await donationCampModel.deletOne(campID);
+      const status = await donationCampModel.remove(DonorReservation);
       return status;
     }catch(err){
       throw new Error('Error deleting Donor reservation, Please try again.');

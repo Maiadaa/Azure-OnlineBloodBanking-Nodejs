@@ -8,9 +8,7 @@ const donationController = require('../controllers/donation');
 const donationRouter = Router();
 donationRouter.post('/Add-donation-camps',donationController.postDonationCamp);
 donationRouter.get('/Retrieve-donation-camps', donationController.getDonationcamps);
-donationRouter.delete('/Retrieve-donation-camps/:donationCampID', donationController.deletDonationCamp);
-
-
+donationRouter.delete('/Retrieve-donation-camps/:donationCampID', donationController.delDonationCamps);
 donationRouter.post('/Add-donor-reservation',donationController.postDonorReservation);
 donationRouter.get('/Retrieve-Donor-reservation',donationController.getAllDonorReservations);
 donationRouter.delete('/Retrieve-Donor-reservation/:reservationID', donationController.deletDonorReservation);

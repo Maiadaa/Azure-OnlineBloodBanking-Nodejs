@@ -9,6 +9,8 @@ const patientRouter = require('./routes/PatientRoutes');
 const hospitalsRouter = require('./routes/hospitals');
 const BloodBagRouter = require('./routes/bloodBag');
 const donationCampsRouter = require('./routes/donation');
+const userAccountRouter = require('./routes/userAccount');
+
 
 // Let the dotenv package read and parse environment variables in the ./config/.env file
 dotenv.config({ 
@@ -28,6 +30,7 @@ app.use('/patient', patientRouter);
 app.use('/hospitals', hospitalsRouter);
 app.use('/BloodBag', BloodBagRouter);
 app.use('/donations', donationCampsRouter);
+app.use('/auth', userAccountRouter);
 
 app.listen(PORT, async() => {
     console.log(`Server has been started and is listening to port ${PORT}`);

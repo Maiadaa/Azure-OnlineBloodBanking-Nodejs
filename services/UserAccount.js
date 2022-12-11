@@ -5,8 +5,8 @@ const labAdminModel = require('../models/LabAdmin');
 const doctorModel = require('../models/Doctor');
 const PatientModel=require('../models/Patient');
 const { ObjectId } = require('mongoose').Types;
-
-module.exports.generateJWT = (user, userRole) => {
+const JWT = require('jsonwebtoken');
+/*module.exports.generateJWT = (user, userRole) => {
     const jwtPlayLoad = {
         userId: user._id,
         username: user.username,
@@ -20,7 +20,24 @@ module.exports.generateJWT = (user, userRole) => {
     }catch(error){
         throw new Error('Failure to sign in, please try again later.');
     }
-};
+};*/
+module.exports.generateJWT = (user, role) => {
+    try {
+        const jwtPayload = {
+            userId: user._id,
+            username: user.username,
+            role: role
+        };
+
+        const jwtSecret = process.env.JWT_SECRET;
+
+
+        let token = JWT.sign(jwtPayload, jwtSecret, { expiresIn: '1h' });
+        return token;
+    } catch (error) {
+        throw new Error('Failure to sign in, please try again later.');
+    }
+  };
 
 module.exports.chkSuperAdminCreds = async(username, password) => {
     try{
@@ -216,35 +233,35 @@ module.exports.chkDoctorCreds = async(username, password) => {
     }
 };
 /*hagrass*/
-module.exports.editSuperAdminAccount = async (superAdminInfo) => {
+module.exports.editSuperAdminAccount = async (id, superAdminInfo) => {
     try{
         const hashedPassword = await bcrypt.hash(superAdminInfo.password, 12);
         superAdminInfo.password = hashedPassword;
-        const status = superAdminModel.findByIdAndUpdate(superAdminInfo._id, superAdminInfo);
+        const status = superAdminModel.findByIdAndUpdate(id, superAdminInfo);
         return status;
     }catch(err){
         throw new Error('can not edit super admin account');
     }
 };
 
-module.exports.ediLabManagerAccount = async (labManagerInfo) => {
+module.exports.ediLabManagerAccount = async (id, labManagerInfo) => {
     try{
         const hashedPassword = await bcrypt.hash(labManagerInfo.password, 12);
         labManagerInfo.password = hashedPassword;
         labManagerInfo.hospitalId = new ObjectId(labManagerInfo.hospitalId);
-        const status = labAdminModel.findByIdAndUpdate(labManagerInfo._id, labManagerInfo);
+        const status = labAdminModel.findByIdAndUpdate(id, labManagerInfo);
         return status;
     }catch(err){
         throw new Error('can not edit lab manager account');
     }
 };
 
-module.exports.editLabAdminAccount = async (labAdminInfo) => {
+module.exports.editLabAdminAccount = async (id, labAdminInfo) => {
     try{
         const hashedPassword = await bcrypt.hash(labAdminInfo.password, 12);
         labAdminInfo.password = hashedPassword;
         labAdminInfo.hospitalId = new ObjectId(labAdminInfo.hospitalId);
-        const status = labAdminModel.findByIdAndUpdate(labAdminInfo._id, labAdminInfo);
+        const status = labAdminModel.findByIdAndUpdate(id, labAdminInfo);
         return status;
     }catch(err){
         throw new Error('can not edit lab admin account');

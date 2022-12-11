@@ -39,7 +39,7 @@ module.exports.addHospital = async (req, res) => {
       });
     }
   }  catch (err) {
-    return res.status(500).send({error: err.message});
+    return res.status(500).send({msg: err.message});
   }
 };
 
@@ -61,10 +61,12 @@ module.exports.editHospital = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       hotline: req.body.hotline,
-      Address: req.body.Address
+      Address: req.body.Address,
+      imageURL: req.body.imageURL
     };
     const status = await hospitalsService.editHospitalInfo(hospital, hospitalNewInfo);
     return res.status(201).send({
+      status,
       msg: "Hospital details were edited successfully."
     });
 
@@ -121,3 +123,4 @@ module.exports.yearlyReport = async (req, res) => {
     return res.status(500).send({error: err.message});
   }
 };
+

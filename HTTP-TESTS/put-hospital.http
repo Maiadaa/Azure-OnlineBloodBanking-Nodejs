@@ -1,9 +1,10 @@
-put http://localhost:3000/hospitals/editHospital/6388ded989c2a3feaa5420af
+put http://localhost:3000/hospitals/editHospital/638fec493cb241998ca73ae1
 Content-Type: application/json
 
 {
     "name": "Airforce Hospital",
     "email": "airforce@gmail",
-    "PhoneNumber": "010103997420",
-    "Address": "5th Settelment"
+    "hotline": "010103997420",
+    "Address": "5th Settelment",
+    "imageURL": "dm.com"
 }

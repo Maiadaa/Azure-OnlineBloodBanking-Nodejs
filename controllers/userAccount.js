@@ -43,7 +43,7 @@ module.exports.postUser = async (req, res) => {
 module.exports.postLogin = async (req, res) => {
   const { role, username, password } = req.body;
   try {
-    var acc; 
+    var acc = null; 
     if(role == "Super Admin"){
       acc = await userAccService.chkSuperAdminCreds(username, password);
     }else if (role == "Lab Manager"){
@@ -52,11 +52,13 @@ module.exports.postLogin = async (req, res) => {
       acc = await userAccService.chkLabAdminCreds(username, password);
     }else if (role == "Doctor"){
       // acc = await userAccService.chkDoctorCreds(username, password);
+      acc = null;
     }else if (role == "Donor"){
       // acc = await userAccService.chkDonorCreds(username ,password);
+      acc = null;
     }
 
-    if (!acc) {
+    if (acc == null) {
       return res.status(401).send({
         error:
           'Invalid credentials, please enter the correct username and password.'
@@ -70,18 +72,20 @@ module.exports.postLogin = async (req, res) => {
       username: acc.username,
       jwt: jwt,
       role: role,
+      hospitalId: acc.hospitalId,
       message: 'Logged in successfully.'
     });
 
   } catch (err) {
     res.status(500).send({
-      error: error.message
+      error: err.message
     });
   }
 };
 
 module.exports.manageSuperAdminAccount = async (req, res) => {
   try{
+    const id = req.params.superId;
     const superAdminInfo = {
       name: req.body.name,
       email: req.body.email,
@@ -89,7 +93,7 @@ module.exports.manageSuperAdminAccount = async (req, res) => {
       username: req.body.username,
       password: req.body.password
     };
-    const status = await userAccService.editSuperAdminAccount(superAdminInfo);
+    const status = await userAccService.editSuperAdminAccount(id, superAdminInfo);
     return status;
   }catch (error) {
     res.status(500).send({
@@ -121,15 +125,16 @@ module.exports.managePatientAccount = async (req, res) => {
 
 module.exports.manageLabManagerAccount = async (req, res) => {
   try{
+    const id = req.params.labmanagerId;
     const labManagerInfo = {
       name: req.body.name,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       username: req.body.username,
       password: req.body.password,
-      hospital: req.body.hospital,
+      hospitalId: req.body.hospital,
     };
-    const status = await userAccService.ediLabManagerAccount(labManagerInfo);
+    const status = await userAccService.ediLabManagerAccount(id, labManagerInfo);
     return status;
   }catch (error) {
     res.status(500).send({
@@ -138,17 +143,18 @@ module.exports.manageLabManagerAccount = async (req, res) => {
   }
 };
 
-module.exports.manageSuperAdminAccount = async (req, res) => {
+module.exports.manageLabAdmin = async (req, res) => {
   try{
+    const id = req.params.labAdminId;
     const labAdminInfo = {
       name: req.body.name,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       username: req.body.username,
       password: req.body.password,
-      hospital: req.body.hospital,
+      hospitalId: req.body.hospital,
     };
-    const status = await userAccService.editLabAdminAccount(labAdminInfo);
+    const status = await userAccService.editLabAdminAccount(id, labAdminInfo);
     return status;
   }catch (error) {
     res.status(500).send({
