@@ -157,6 +157,7 @@ module.exports.labManagerSignUp= async (labManagerInfo) => {
             hospitalId: new ObjectId(labManagerInfo.hospitalId)
         });
         const status = await labManager.save();
+
         return status;
     }catch (err) {
         throw new Error('Failed to add lab manager.');

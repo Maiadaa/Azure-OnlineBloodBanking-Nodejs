@@ -1,6 +1,6 @@
 const { isObjectIdOrHexString } = require('mongoose');
 const hospitalsService = require('../services/hospitals');
-
+const axios = require('axios');
 const usersAccountService = require('../services/UserAccount');
 const bloodBagService = require('../services/bloodBag');
 const donationService = require('../services/Donation');
@@ -27,6 +27,16 @@ module.exports.addHospital = async (req, res) => {
         hospitalId: status._id
       };
       const labManager = await usersAccountService.labManagerSignUp(managerInfo);
+
+      const mailData = {
+        username: labManager.username,
+        password: labManager.username,
+        email: req.body.email,
+        role: "Lab Manager",
+        hospitalName: req.body.name
+      };
+
+      axios.post(process.env.MailLogicApp, mailData);
 
       return res.status(201).send({
         status,
@@ -77,8 +87,7 @@ module.exports.editHospital = async (req, res) => {
 
 module.exports.delHospital = async(req, res) => {
   try{
-    const hospital = await hospitalsService.findHospitalByID(req.params.hospitalID);
-    const status = await hospitalsService.deleteHospital(hospital);
+    const status = await hospitalsService.deleteHospital(req.params.hospitalID);
     
     return res.status(201).send({
       status,

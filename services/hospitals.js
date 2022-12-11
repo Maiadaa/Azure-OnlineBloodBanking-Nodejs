@@ -61,9 +61,9 @@ module.exports.editHospitalInfo = async (hospital, hospitalNewInfo) => {
   }
 };
 
-module.exports.deleteHospital = async (hospital) => {
+module.exports.deleteHospital = async (hospitalID) => {
   try {
-    const status = await hospitalModel.remove(hospital);
+    const status = await hospitalModel.findByIdAndDelete(hospitalID);
     return status;
   } catch (err) {
     throw new Error('Could not delete Hospital.');
