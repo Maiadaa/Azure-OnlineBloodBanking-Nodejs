@@ -241,7 +241,7 @@ module.exports.editSuperAdminAccount = async (id, superAdminInfo) => {
     try{
         const hashedPassword = await bcrypt.hash(superAdminInfo.password, 12);
         superAdminInfo.password = hashedPassword;
-        const status = superAdminModel.findByIdAndUpdate(id, superAdminInfo);
+        const status = await superAdminModel.findByIdAndUpdate(id, superAdminInfo);
         return status;
     }catch(err){
         throw new Error('can not edit super admin account');
@@ -252,8 +252,7 @@ module.exports.ediLabManagerAccount = async (id, labManagerInfo) => {
     try{
         const hashedPassword = await bcrypt.hash(labManagerInfo.password, 12);
         labManagerInfo.password = hashedPassword;
-        labManagerInfo.hospitalId = new ObjectId(labManagerInfo.hospitalId);
-        const status = labAdminModel.findByIdAndUpdate(id, labManagerInfo);
+        const status = await labManagerModel.findByIdAndUpdate(id, labManagerInfo);
         return status;
     }catch(err){
         throw new Error('can not edit lab manager account');
@@ -265,7 +264,7 @@ module.exports.editLabAdminAccount = async (id, labAdminInfo) => {
         const hashedPassword = await bcrypt.hash(labAdminInfo.password, 12);
         labAdminInfo.password = hashedPassword;
         labAdminInfo.hospitalId = new ObjectId(labAdminInfo.hospitalId);
-        const status = labAdminModel.findByIdAndUpdate(id, labAdminInfo);
+        const status = await labAdminModel.findByIdAndUpdate(id, labAdminInfo);
         return status;
     }catch(err){
         throw new Error('can not edit lab admin account');

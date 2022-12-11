@@ -10,8 +10,9 @@ const accountsRouter = Router();
 accountsRouter.post('/signup', accountsController.postUser);
 accountsRouter.post('/signin', accountsController.postLogin);
 accountsRouter.put('/userAccount/UpdateSuperAdmin/:superId', accountsController.manageSuperAdminAccount);
-accountsRouter.put('/userAccount/UpdateLabManager/:labmanagerId', accountsController.manageSuperAdminAccount);
-accountsRouter.put('/userAccount/UpdateLabManager/:labAdminId', accountsController.manageLabAdmin);
+accountsRouter.put('/userAccount/UpdateLabManager/:labmanagerId', accountsController.manageLabManagerAccount);
+accountsRouter.put('/userAccount/UpdateLabAdmin/:labAdminId', accountsController.manageLabAdmin);
+
 //authRouter.post('/signin', accountsController.postLogin);
 
 // export the router instance 

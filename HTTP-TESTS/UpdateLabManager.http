@@ -1,0 +1,10 @@
+PUT http://localhost:3000/auth/userAccount/UpdateLabManager/639076a386c84f44fdcfbbb9
+Content-Type: application/json
+
+{
+    "name": "update",
+    "email": "hagrass@bue.com",
+    "phoneNumber": "01013700990",
+    "username": "test",
+    "password": "test"
+}

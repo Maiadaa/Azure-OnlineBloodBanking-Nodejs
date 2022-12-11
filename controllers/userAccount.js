@@ -92,29 +92,8 @@ module.exports.manageSuperAdminAccount = async (req, res) => {
       password: req.body.password
     };
     const status = await userAccService.editSuperAdminAccount(id, superAdminInfo);
-    return status;
-  } catch (error) {
-    res.status(500).send({
-      error: error.message
-    });
-  }
-};
-
-module.exports.managePatientAccount = async (req, res) => {
-  try {
-    const patientInfo = {
-      name: req.body.name,
-      email: req.body.email,
-      PhoneNumber: req.body.PhoneNumber,
-      address: req.body.username,
-      condition: req.body.condition,
-      Bloodtype: req.body.Bloodtype,
-      hospitalId: req.body.hospitalId,
-      Request: req.body.Request,
-    };
-    const status = await userAccService.editPatientAccount(patientInfo);
-    return status;
-  } catch (error) {
+    res.send(status);
+  }catch (error) {
     res.status(500).send({
       error: error.message
     });
@@ -129,12 +108,11 @@ module.exports.manageLabManagerAccount = async (req, res) => {
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       username: req.body.username,
-      password: req.body.password,
-      hospitalId: req.body.hospital,
+      password: req.body.password
     };
     const status = await userAccService.ediLabManagerAccount(id, labManagerInfo);
-    return status;
-  } catch (error) {
+    res.send(status);
+  }catch (error) {
     res.status(500).send({
       error: error.message
     });
@@ -149,12 +127,11 @@ module.exports.manageLabAdmin = async (req, res) => {
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       username: req.body.username,
-      password: req.body.password,
-      hospitalId: req.body.hospital,
+      password: req.body.password
     };
     const status = await userAccService.editLabAdminAccount(id, labAdminInfo);
-    return status;
-  } catch (error) {
+    res.send(status);
+  }catch (error) {
     res.status(500).send({
       error: error.message
     });
