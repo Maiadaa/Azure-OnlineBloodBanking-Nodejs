@@ -3,6 +3,7 @@ const superAdminModel = require('../models/SuperAdmin');
 const labManagerModel = require('../models/LabManagerSchema');
 const labAdminModel = require('../models/LabAdmin');
 const doctorModel = require('../models/Doctor');
+const donorModel = require('../models/Donor');
 const PatientModel=require('../models/Patient');
 const { ObjectId } = require('mongoose').Types;
 const JWT = require('jsonwebtoken');
@@ -114,11 +115,13 @@ module.exports.doesUserExist = async(role, username) => {
             username: username
         });
     }else if (accInfo.role == "Doctor"){
-
+        existingUser = await doctorModel.findOne({
+            Username: username
+        });
     }else if (accInfo.role == "Donor"){
-
-    }else{
-
+        existingUser = await donorModel.findOne({
+            uname: username
+        });
     }
 
     if (existingUser) {
@@ -136,7 +139,7 @@ module.exports.superAdminSignup= async (superAdminInfo) => {
         const superAdmin = new superAdminModel({
             name: superAdminInfo.name,
             email: superAdminInfo.email,
-            PhoneNumber: superAdminInfo.PhoneNumber,
+            PhoneNumber: superAdminInfo.phoneNumber,
             username: superAdminInfo.username,
             password: hashedPassword
         });
@@ -154,7 +157,7 @@ module.exports.labManagerSignUp= async (labManagerInfo) => {
         const labManager = new labManagerModel({
             username: labManagerInfo.username,
             password: hashedPassword,
-            hospitalId: new ObjectId(labManagerInfo.hospitalId)
+            hospitalId: new ObjectId(labManagerInfo.hospital)
         });
         const status = await labManager.save();
 
