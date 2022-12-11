@@ -65,25 +65,7 @@ module.exports.modifyBagRequest = async (patient) => {
     throw new Error('can not modify bag request');
   }
 };
-/*
-module.exports.findBankInventoryById = async (bankInventoryID) => {
-  try {
-    const inventory = await bankInventoryModel.findById(bankInventoryID);
-    return inventory;
-  } catch (err) {
-    throw new Error('Could not find bank inventory.');
-  }
-};
 
-module.exports.acceptReqModifyAmount = async (inventory) => {
-  try{
-    const patientt= await PatientModel.findByIdAndUpdate(inventory._id, inventory);
-    return true;
-  }catch(arr){
-    throw new Error('can not update amount');
-  }
-}
-*/
 module.exports.acceptBagRequest = async (patient) => {
   try{
     const patientt= await PatientModel.findByIdAndUpdate(patient._id, patient);
