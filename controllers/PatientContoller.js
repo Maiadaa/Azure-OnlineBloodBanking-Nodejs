@@ -18,8 +18,8 @@ module.exports.getPatientByID = async (req, res) => {
   
   try{
       const patientID = req.params.patientID;
-      const pateitn = await pateitnService.findPatientById(patientID);
-      res.send({pateitn});
+      const patient = await pateitnService.findPatientById(patientID);
+      res.send({patient});
   }catch(err){
       res.status(500);
       res.send({
@@ -199,4 +199,34 @@ module.exports.accept_bag_request = async (req, res) => {
       error: err
     });
   }
+};
+
+module.exports.managePatient = async (req, res) => {
+  const validationErrors = validationResult(req).array();
+  if(validationErrors.length > 0){
+    return res.status(422).send({ validationErrors });
+  }
+  try {
+    const id = req.params.patientID;
+    const patientInfo = {
+        _id: id,
+        name: req.body.name,
+        email: req.body.email,
+        PhoneNumber: req.body.PhoneNumber,
+        Address: req.body.Address,
+        Condition: req.body.Condition,
+        BloodType: req.body.BloodType,
+        hospitalId: req.body.hospitalId
+    };
+    
+      const createdPatient = await pateitnService.managePatient(patientInfo);
+      return res.status(201).send({
+        msg: 'patient updates successfully.',
+        patient_ID: createdPatient._id
+      });
+    } catch (err) {
+      return res.status(500).send({
+        error: err.message
+      });
+    }
 };

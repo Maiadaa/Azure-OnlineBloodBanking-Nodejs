@@ -61,7 +61,7 @@ module.exports.postRemoveBloodBag = async (req,res) =>
 {
     try
     {
-        const output =  await BloodBagService.RemoveBloodBag(req.params.BloodBagID);
+        const output =  await BloodBagService.RemoveBloodBag(req.params.bloodBagID);
         return res.status(201).send({
             msg: "blood bag removed from system successfully",
             output

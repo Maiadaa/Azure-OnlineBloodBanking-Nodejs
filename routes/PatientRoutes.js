@@ -20,4 +20,6 @@ patientRouter.put('/requestBloodBag/:patientID', patientsValidator.validateBlood
 
 patientRouter.put('/acceptBagRequest/:patientID/:RequesID', PatientContoller.accept_bag_request);
 
+patientRouter.put('/managePatient/:patientID', patientsValidator.validateManagePatient(), PatientContoller.managePatient);
+
 module.exports = patientRouter;

@@ -92,3 +92,12 @@ module.exports.acceptBagRequest = async (patient) => {
     throw new Error('can not update request status');
   }
 };
+
+module.exports.managePatient = async (patient) => {
+  try{
+    const patientt= await PatientModel.findByIdAndUpdate(patient._id, patient);
+    return patientt;
+  }catch(arr){
+    throw new Error('can not update patient');
+  }
+};

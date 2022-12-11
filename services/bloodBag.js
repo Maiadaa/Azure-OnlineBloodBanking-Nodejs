@@ -105,8 +105,7 @@ module.exports.AcceptBloodBag = async (BloodBag) => {
 module.exports.RemoveBloodBag = async (BloodBagID) => {
   try 
   {
-    const BloodBag = await BloodBagModel.findById(BloodBagID);
-    const removedBloodBag = await BloodBagModel.findByIdAndRemove(BloodBag);
+    const removedBloodBag = await BloodBagModel.findByIdAndDelete(BloodBagID);
     return removedBloodBag;
   }
   catch (error) {

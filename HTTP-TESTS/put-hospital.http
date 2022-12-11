@@ -2,7 +2,7 @@ put http://localhost:3000/hospitals/editHospital/638fec493cb241998ca73ae1
 Content-Type: application/json
 
 {
-    "name": "Airforce Hospital",
+    "name": "Airforceee Hospitalll",
     "email": "airforce@gmail",
     "hotline": "010103997420",
     "Address": "5th Settelment",

@@ -1,0 +1,13 @@
+put http://localhost:3000/patient/managePatient/638a7fcc812cea84a78be2a1
+Content-Type: application/json
+
+{
+"name": "hagrasstest",
+"email": "hagrass@bue.com",
+"PhoneNumber": "01013700990",
+"Address": "cairo",
+"Condition": "nnn",
+"BloodType": "A+",
+"hospitalId": "6388db94f9a15563b956ec09"
+
+}

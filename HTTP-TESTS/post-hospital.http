@@ -2,7 +2,7 @@ post http://localhost:3000/hospitals/addHospital
 Content-Type: application/json
 
 {
-    "name": "hagrafshsssdsssdddds",
+    "name": "test",
     "email": "test@gmail",
     "hotline": "010103997420",
     "Address": "test",
