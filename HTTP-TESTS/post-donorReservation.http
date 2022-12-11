@@ -1,0 +1,7 @@
+post http://localhost:3000/donations/Add-donor-reservation
+Content-Type: application/json
+
+{
+    "donorID": "1",
+    "timeSlot": "2",
+}
