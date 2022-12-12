@@ -2,7 +2,7 @@ post http://localhost:3000/auth/signin
 Content-Type: application/json
 
 {
-"username": "signin",
-"password": "signin",
+"username": "mahmoud123",
+"password": "mahmoud123",
 "role": "Lab Manager"
 }
