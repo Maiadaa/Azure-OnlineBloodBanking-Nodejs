@@ -2,11 +2,11 @@ post http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-"username": "heuwhgriei",
-"password": "final",
+"username": "mohamed",
+"password": "mohamed",
 "email": "final@gmail.com",
 "phoneNumber": "1234567890",
-"name": "final",
-"role" : "Lab Manager",
-"hospital": "639247331f144dd8a1eadacb"
+"name": "mohamed",
+"role" : "Super Admin",
+"hospital": "639648820872f731e6cc1395"
 }

@@ -1,0 +1,12 @@
+post http://localhost:3000/auth/userAccount/CreateLabAdmin
+Content-Type: application/json
+
+{
+        "name": "seif",
+        "email": "seif@gmail.com",
+        "phoneNumber": "01128555666",
+        "username": "seif123",
+        "password": "seif123",
+        "hospitalId": "639648820872f731e6cc1395"
+
+}

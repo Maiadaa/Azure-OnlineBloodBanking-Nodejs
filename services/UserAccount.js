@@ -7,6 +7,8 @@ const donorModel = require('../models/Donor');
 const PatientModel=require('../models/Patient');
 const { ObjectId } = require('mongoose').Types;
 const JWT = require('jsonwebtoken');
+const LabAdminModel = require('../models/LabAdmin');
+const SuperAdminModel = require('../models/SuperAdmin');
 /*module.exports.generateJWT = (user, userRole) => {
     const jwtPlayLoad = {
         userId: user._id,
@@ -185,6 +187,7 @@ module.exports.labAdminSignUp = async (labAdminInfo) => {
         throw new Error('Failed to add lab admin.');
     }
 };
+
 /*assem*/
 module.exports.DoctorSignUp = async (DcotorInfo) => {
     try{
@@ -235,6 +238,44 @@ module.exports.chkDoctorCreds = async(username, password) => {
     }catch(error){
         throw new Error('Error logging in, please try again later.');
     }
+};
+module.exports.createLabAdminAccount = async (LabAdminInfo) => {
+    try {
+        const LabAdmin = new labAdminModel(
+        {
+            name:  LabAdminInfo.name,
+            email: LabAdminInfo.email,
+            phoneNumber: LabAdminInfo.phoneNumber,
+            username: LabAdminInfo.username,
+            password: LabAdminInfo.password,
+            hospitalId: LabAdminInfo.hospitalId
+        });
+        const addedLabAdmin = await LabAdmin.save();
+        return addedLabAdmin;
+      }
+      catch (error) {
+        console.log(error);
+        throw new Error('Could not add Lab Admin account to this hospital');
+      }
+};
+module.exports.createSuperAdminAccount = async (SuperAdminInfo) => {
+    try {
+        let hashedPassword = await bcrypt.hash(SuperAdminInfo.password, 12);
+        const LabAdmin = new superAdminModel(
+        {
+            name:  SuperAdminInfo.name,
+            email: SuperAdminInfo.email,
+            phoneNumber: SuperAdminInfo.phoneNumber,
+            username: SuperAdminInfo.username,
+            password: hashedPassword
+        });
+        const addedSuperAdmin = await LabAdmin.save();
+        return addedSuperAdmin;
+      }
+      catch (error) {
+        console.log(error);
+        throw new Error('Could not add Lab Admin account to this hospital');
+      }
 };
 /*hagrass*/
 module.exports.editSuperAdminAccount = async (id, superAdminInfo) => {

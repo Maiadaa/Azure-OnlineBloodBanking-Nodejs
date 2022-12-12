@@ -113,6 +113,14 @@ module.exports.RemoveBloodBag = async (BloodBagID) => {
     throw new Error('Could not reject blood bag / could not remove the blood bag from the system');
   }
 };
+module.exports.FindBloodBags = async (BloodType) => {
+  try{
+      const Bloodbags = await BloodBagModel.find({bloodType: BloodType});
+      return Bloodbags;
+  }catch (err){
+      throw new Error('can not font any blood bags');
+  }
+};
 /*hagrass*/
 module.exports.findBloodBagById = async (BloodBagID) => {
   try {
@@ -132,14 +140,7 @@ module.exports.deleteBloodBag = async (bloodBag) => {
   }
 };
 
-module.exports.FindBloodBags = async (BloodType) => {
-  try{
-      const Bloodbags = await BloodBagModel.find({bloodType: BloodType});
-      return Bloodbags;
-  }catch (err){
-      throw new Error('can not font any blood bags');
-  }
-};
+
 
 /*** MAIADA ***/
 module.exports.cntBagsByHospital = async (hospitalID) => {

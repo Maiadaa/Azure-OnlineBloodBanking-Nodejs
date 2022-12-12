@@ -2,8 +2,8 @@ post http://localhost:3000/BloodBag/InsertBloodBag
 Content-Type: application/json
 
 {
-        "hospital": "638e7c0f8dce3f12d68269dd",
-        "bloodType" : "B" ,
+        "hospital": "639648820872f731e6cc1395",
+        "bloodType" : "O" ,
         "HBV" : "1",
         "HCV" : "0",
         "HIV" : "1",

@@ -1,0 +1,10 @@
+post http://localhost:3000/auth/userAccount/CreateSuperAdmin
+Content-Type: application/json
+
+{
+        "name": "seif",
+        "email": "seif@gmail.com",
+        "phoneNumber": "01128555666",
+        "username": "gerges123",
+        "password": "gerges123"
+}

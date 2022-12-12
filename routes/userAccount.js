@@ -12,6 +12,9 @@ accountsRouter.post('/signin', accountsController.postLogin);
 accountsRouter.put('/userAccount/UpdateSuperAdmin/:superId', accountsController.manageSuperAdminAccount);
 accountsRouter.put('/userAccount/UpdateLabManager/:labmanagerId', accountsController.manageLabManagerAccount);
 accountsRouter.put('/userAccount/UpdateLabAdmin/:labAdminId', accountsController.manageLabAdmin);
+accountsRouter.post('/userAccount/CreateLabAdmin', accountsController.postLabAdmin);
+accountsRouter.post('/userAccount/CreateSuperAdmin', accountsController.postSuperAdmin);
+
 
 //authRouter.post('/signin', accountsController.postLogin);
 

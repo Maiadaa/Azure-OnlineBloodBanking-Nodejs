@@ -137,3 +137,62 @@ module.exports.manageLabAdmin = async (req, res) => {
     });
   }
 };
+module.exports.postLabAdmin = async (req,res) =>
+{
+    const LabAdminInfo = 
+    {
+      name:  req.body.name,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      username: req.body.username,
+      password: req.body.password,
+      hospitalId: req.body.hospitalId
+    };
+    try
+    {
+        
+        const addedLabAdmin = await userAccService.createLabAdminAccount(LabAdminInfo);
+
+        res.status(201).send({
+            msg: 'Lab Admin created for your hospital successfully'
+            
+        });
+    }
+    catch(err)
+    {
+        res.status(500);
+        res.send({
+            error: err.message
+        });
+    }
+    
+};
+module.exports.postSuperAdmin = async (req,res) =>
+{
+    const SuperAdminInfo = 
+    {
+      name:  req.body.name,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      username: req.body.username,
+      password: req.body.password
+    };
+    try
+    {
+        
+        const addedLabAdmin = await userAccService.createSuperAdminAccount(SuperAdminInfo);
+
+        res.status(201).send({
+            msg: 'Super Admin created for your hospital successfully'
+            
+        });
+    }
+    catch(err)
+    {
+        res.status(500);
+        res.send({
+            error: err.message
+        });
+    }
+    
+};
