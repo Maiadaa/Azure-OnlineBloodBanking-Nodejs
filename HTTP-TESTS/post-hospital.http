@@ -2,8 +2,8 @@ post http://localhost:3000/hospitals/addHospital
 Content-Type: application/json
 
 {
-    "name": "test",
-    "email": "test@gmail",
+    "name": "AirForce",
+    "email": "maiada203398@bue.edu.eg",
     "hotline": "010103997420",
     "Address": "test",
     "imageURL" : "https://yt3.ggpht.com/ytc/AMLnZu_6me1koZlXq6gApCFVKyqk9xpe7PBppMdTa-NO7Q=s900-c-k-c0x00ffffff-no-rj"

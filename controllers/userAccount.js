@@ -13,19 +13,13 @@ module.exports.postUser = async (req, res) => {
     };
 
     if (accInfo.role == "Super Admin") {
-      await userAccService.superAdminSignup(accInfo);
-    }
-    else if (accInfo.role == "Lab Manager") {
-      await userAccService.labManagerSignUp(accInfo);
-    }
-    else if (accInfo.role == "Lab Admin") {
-      await userAccService.labAdminSignUp(accInfo);
+      await userAccService.createSuperAdminAccount(accInfo);
     }
     else if (accInfo.role == "Doctor") {
-      // await userAccService.doctorSignUp(accInfo);
+      await userAccService.createDoctorAccount(accInfo);
     }
     else if (accInfo.role == "Donor") {
-      // await userAccService.donorSignUp(accInfo);
+      await userAccService.createDonorAccount(accInfo);
     }
     res.send({
       message: "User registered successfully."

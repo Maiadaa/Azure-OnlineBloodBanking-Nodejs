@@ -7,8 +7,6 @@ const donorModel = require('../models/Donor');
 const PatientModel=require('../models/Patient');
 const { ObjectId } = require('mongoose').Types;
 const JWT = require('jsonwebtoken');
-const LabAdminModel = require('../models/LabAdmin');
-const SuperAdminModel = require('../models/SuperAdmin');
 /*module.exports.generateJWT = (user, userRole) => {
     const jwtPlayLoad = {
         userId: user._id,
@@ -312,3 +310,42 @@ module.exports.editLabAdminAccount = async (id, labAdminInfo) => {
     }
 };
 
+module.exports.createDoctorAccount = async (doctorAccountInfo) => {
+    try {
+        let hashedPassword = await bcrypt.hash(doctorAccountInfo.password, 12);
+        const doctor = new doctorModel(
+        {
+            name:  doctorAccountInfo.name,
+            email: doctorAccountInfo.email,
+            phoneNumber: doctorAccountInfo.phoneNumber,
+            username: doctorAccountInfo.username,
+            password: hashedPassword
+        });
+        const addDoctor = await doctor.save();
+        return addDoctor;
+      }
+      catch (error) {
+        console.log(error);
+        throw new Error('Could not add Lab Admin account to this hospital');
+      }
+};
+
+module.exports.createDonorAccount = async (donorAccountInfo) => {
+    try {
+        let hashedPassword = await bcrypt.hash(donorAccountInfo.password, 12);
+        const donor = new donorModel(
+        {
+            name:  donorAccountInfo.name,
+            email: donorAccountInfo.email,
+            phoneNumber: donorAccountInfo.phoneNumber,
+            username: donorAccountInfo.username,
+            password: hashedPassword
+        });
+        const addedDonor = await donor.save();
+        return addedDonor;
+      }
+      catch (error) {
+        console.log(error);
+        throw new Error('Could not add Lab Admin account to this hospital');
+      }
+};
