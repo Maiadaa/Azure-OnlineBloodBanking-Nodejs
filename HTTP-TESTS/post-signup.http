@@ -7,6 +7,6 @@ Content-Type: application/json
 "email": "final@gmail.com",
 "phoneNumber": "1234567890",
 "name": "mohamed",
-"role" : "Super Admin",
-"hospital": "639648820872f731e6cc1395"
+"role" : "Donor",
+"bloodType": "A+"
 }

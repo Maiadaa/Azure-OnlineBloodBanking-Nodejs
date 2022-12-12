@@ -9,7 +9,9 @@ module.exports.postUser = async (req, res) => {
       email: req.body.email,
       hospital: req.body.hospital,
       phoneNumber: req.body.phoneNumber,
-      role: req.body.role
+      role: req.body.role,
+      hospitalId : req.body.hospital,
+      bloodType: req.body.bloodType
     };
 
     if (accInfo.role == "Super Admin") {
@@ -43,11 +45,9 @@ module.exports.postLogin = async (req, res) => {
     } else if (role == "Lab Admin") {
       acc = await userAccService.chkLabAdminCreds(username, password);
     } else if (role == "Doctor") {
-      // acc = await userAccService.chkDoctorCreds(username, password);
-      acc = null;
+      acc = await userAccService.chkDoctorCreds(username, password);
     } else if (role == "Donor") {
-      // acc = await userAccService.chkDonorCreds(username ,password);
-      acc = null;
+      acc = await userAccService.chkDonorCreds(username ,password);
     }
 
     if (acc == null) {

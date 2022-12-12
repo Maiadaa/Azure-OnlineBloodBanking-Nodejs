@@ -13,11 +13,11 @@ const DonorSchema = new Schema({
         type: 'String',
         required: true
     },
-    uname: {
+    username: {
         type: 'String',
         required: true
     },
-    pwd: {
+    password: {
         type: 'String',
         required: true
     },
@@ -27,11 +27,11 @@ const DonorSchema = new Schema({
     },
     nationality: {
         type: 'String',
-        required: true
+        required: false
     },
     gender:{
         type: 'String',
-        required: true
+        required: false
     }
 });
 

@@ -237,6 +237,27 @@ module.exports.chkDoctorCreds = async(username, password) => {
         throw new Error('Error logging in, please try again later.');
     }
 };
+
+module.exports.chkDonorCreds = async(username, password) => {
+    try{
+        // find user that has the same username
+        const user = await donorModel.findOne({
+            username: username
+        });
+  
+        // compare the plaintext password with the user's hashed password in the db.
+        let isCorrectPassword = bcrypt.compare(password, user.password);
+  
+        if (isCorrectPassword) {
+            return user;
+        } else {
+            return null;
+        }
+    }catch(error){
+        throw new Error('Error logging in, please try again later.');
+    }
+};
+
 module.exports.createLabAdminAccount = async (LabAdminInfo) => {
     try {
         const LabAdmin = new labAdminModel(
@@ -319,14 +340,15 @@ module.exports.createDoctorAccount = async (doctorAccountInfo) => {
             email: doctorAccountInfo.email,
             phoneNumber: doctorAccountInfo.phoneNumber,
             username: doctorAccountInfo.username,
-            password: hashedPassword
+            password: hashedPassword,
+            hospitalId: new ObjectId(doctorAccountInfo.hospitalId)
         });
         const addDoctor = await doctor.save();
         return addDoctor;
       }
       catch (error) {
         console.log(error);
-        throw new Error('Could not add Lab Admin account to this hospital');
+        throw new Error('Could not add doctor');
       }
 };
 
@@ -339,13 +361,14 @@ module.exports.createDonorAccount = async (donorAccountInfo) => {
             email: donorAccountInfo.email,
             phoneNumber: donorAccountInfo.phoneNumber,
             username: donorAccountInfo.username,
-            password: hashedPassword
+            password: hashedPassword,
+            bloodType: donorAccountInfo.bloodType
         });
         const addedDonor = await donor.save();
         return addedDonor;
       }
       catch (error) {
         console.log(error);
-        throw new Error('Could not add Lab Admin account to this hospital');
+        throw new Error('Could not add donor');
       }
 };

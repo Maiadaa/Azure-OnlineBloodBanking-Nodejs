@@ -9,21 +9,22 @@ const DoctorSchema = new Schema({
         type: 'String',
         required: true
     },
-    PhoneNumber: {
+    phoneNumber: {
         type: 'String',
         required: true
     },
-    Username: {
+    username: {
         type: 'String',
         required: true
     },
-    Password: {
+    password: {
         type: 'String',
         required: true
     },
-    Speciality: {
+    role: {
         type: 'String',
-        required: true 
+        required:  false,
+        default: "General Doctor"
     },
     hospitalId:{
         type: Schema.Types.ObjectId,
