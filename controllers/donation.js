@@ -70,7 +70,6 @@ module.exports.postDonorReservation = async (req, res) => {
         const addedDonorReservation = await reservationService.addDonorReservation(AddDonorReservation);
         return res.status(201).send({
           msg: 'Reservation created successfully.',
-          Reservation_ID: createdReservation._id
         });
       } catch (err) {
         return res.status(500).send({
